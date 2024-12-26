@@ -1,3 +1,20 @@
+- 添加更多列
+    - `public/css/lrr.css`
+    - `public/js/index.js`
+    - `public/js/index_datatables.js`
+    - `templates/index.html.tt2`
+- 添加评分及评论插件，右键档案使用
+    - `lib/LANraragi/Plugin/Metadata/Comment.pm`
+      - 新出的`Summary`字段应该指的是自带的元数据，那就与此字段不冲突
+    - `lib/LANraragi/Plugin/Metadata/Rating.pm`
+      - 有人在进行类似的工作
+- 略微调整EHentai插件搜索逻辑
+    - `lib/LANraragi/Plugin/Metadata/EHentai.pm`
+- 添加插件
+    - [为缺少source标签的档案添加Ehentai元数据](https://github.com/chu-shen/LANraragi-scripts#%E4%B8%BA%E7%BC%BA%E5%B0%91source%E6%A0%87%E7%AD%BE%E7%9A%84%E6%A1%A3%E6%A1%88%E6%B7%BB%E5%8A%A0ehentai%E5%85%83%E6%95%B0%E6%8D%AE)：`lib/LANraragi/Plugin/Scripts/addEhentaiMetadata.pm`
+    - 根据档案名查找重复档案并保存至`DuplicateArchives`分类：`lib/LANraragi/Plugin/Scripts/DuplicateFinder.pm`
+
+
 [<img src="https://img.shields.io/docker/pulls/difegue/lanraragi.svg">](https://hub.docker.com/r/difegue/lanraragi/)
 [<img src="https://img.shields.io/github/downloads/difegue/lanraragi/total.svg">](https://github.com/Difegue/LANraragi/releases)
 [<img src="https://img.shields.io/github/release/difegue/lanraragi.svg?label=latest%20release">](https://github.com/Difegue/LANraragi/releases/latest)

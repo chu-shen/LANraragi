@@ -156,16 +156,44 @@
 					<tr>
 						<th id="titleheader">
 							<a>Title</a>
+						</th><th id="customheader4">
+							<i id="edit-header-1" class="fas fa-pencil-alt edit-header-btn" title="Edit this column"></i>
+							<a id="header-1">Date_added</a>
+						</th>
+						<th id="customheader3">
+							<i id="edit-header-2" class="fas fa-pencil-alt edit-header-btn" title="Edit this column"></i>
+							<a id="header-2">Rating</a>
 						</th>
 						<th id="customheader1">
-							<i id="edit-header-1" class="fas fa-pencil-alt edit-header-btn"
-								title="Edit this column"></i>
-							<a id="header-1">Artist</a>
+							<i id="edit-header-3" class="fas fa-pencil-alt edit-header-btn" title="Edit this column"></i>
+							<a id="header-3">Comment</a>
+						</th><th id="customheader4">
+							<i id="edit-header-4" class="fas fa-pencil-alt edit-header-btn" title="Edit this column"></i>
+							<a id="header-4">Artist</a>
 						</th>
 						<th id="customheader2">
-							<i id="edit-header-2" class="fas fa-pencil-alt edit-header-btn"
-								title="Edit this column"></i>
-							<a id="header-2">Series</a>
+							<i id="edit-header-5" class="fas fa-pencil-alt edit-header-btn" title="Edit this column"></i>
+							<a id="header-5">Group</a>
+						</th></th>
+						<th id="customheader2">
+							<i id="edit-header-6" class="fas fa-pencil-alt edit-header-btn" title="Edit this column"></i>
+							<a id="header-6">Series</a>
+						</th>
+						<th id="customheader4">
+							<i id="edit-header-7" class="fas fa-pencil-alt edit-header-btn" title="Edit this column"></i>
+							<a id="header-7">Language</a>
+						</th>
+						<th id="customheader5">
+							<i id="edit-header-8" class="fas fa-pencil-alt edit-header-btn" title="Edit this column"></i>
+							<a id="header-8">Event</a>
+						</th>
+						<th id="customheader4">
+							<i id="edit-header-9" class="fas fa-pencil-alt edit-header-btn" title="Edit this column"></i>
+							<a id="header-9">category</a>
+						</th>
+						<th id="customheader1">
+							<i id="edit-header-10" class="fas fa-pencil-alt edit-header-btn" title="Edit this column"></i>
+							<a id="header-10">Other</a>
 						</th>
 						<th id="tagsheader">
 							<a>Tags</a>
@@ -230,6 +258,24 @@
 							"read": { name: "Read", icon: "fas fa-book" },
 							"download": { name: "Download", icon: "fas fa-save" },
 							[% IF userlogged %]
+							"sep1": "---------",
+							"rating": {
+								"name": "添加评分至标签",
+								"icon": "fas fa-search-plus",
+								"items": {
+									"rating-5": { "name": "💕💕💕💕💕" },
+									"rating-4.5": { "name": "💕💕💕💕" },
+									"rating-4": { "name": "💕💕💕"},
+									"rating-3.5": { "name": "💕💕" },
+									"rating-3": { "name": "💕", },
+									"rating-2.5": { "name": "❤️❤️❤️❤️❤️" },
+									"rating-2": { "name": "❤️❤️❤️❤️" },
+									"rating-1.5": { "name": "❤️❤️❤️"},
+									"rating-1": { "name": "❤️❤️"},
+									"rating-0.5": { "name": "❤️" },
+								}
+							},
+							"comment": { name: "添加评论至标签", icon: "fas fa-pencil-alt" },
 							"sep1": "---------",
 							"edit": { name: "Edit Metadata", icon: "fas fa-pencil-alt" },
 							"delete": { name: "Delete", icon: "fas fa-trash-alt" },

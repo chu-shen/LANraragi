@@ -29,6 +29,21 @@ td.custom2 {
   max-width: 100px;
 }
 
+#customheader3,
+td.customheader3 {
+  max-width: 80px;
+}
+
+#customheader4,
+td.customheader4 {
+  max-width: 70px;
+}
+
+#customheader5,
+td.customheader5 {
+  max-width: 50px;
+}
+
 #tagsheader,
 td.tags {
   max-width: 250px;
