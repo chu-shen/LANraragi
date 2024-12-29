@@ -147,6 +147,14 @@
 						title="[% c.lh('Switch to Compact Mode') %]"></a>
 					<a class="fa fa-table fa-2x mode-toggle compact-toggle table-option" href="#"
 						title="[% c.lh('Switch to Thumbnail Mode') %]"></a>
+					<label for="column-count">选择列数:</label>
+					<select class="favtag-btn" id="column-count">
+						<script>  
+							for (let i = 1; i <= 10; i++) {  
+								document.write(`<option value="${i}">${i} 列</option>`);  
+							}  
+						</script> 
+					</select>
 				</div>
 			</div>
 

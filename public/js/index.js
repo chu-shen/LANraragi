@@ -370,11 +370,27 @@ Index.updateCarousel = function (e) {
     }
 };
 
+
+document.addEventListener("DOMContentLoaded", function () {
+    const columnCountSelect = document.getElementById("column-count");
+
+    const storedColumnCount = localStorage.getItem("column-count");
+    if (storedColumnCount) {
+        columnCountSelect.value = storedColumnCount;
+        Index.generateTableHeaders(storedColumnCount);
+    }
+
+    columnCountSelect.addEventListener("change", function () {
+        const selectedCount = columnCountSelect.value;
+        localStorage.setItem("column-count", selectedCount);
+        Index.generateTableHeaders(selectedCount);
+    });
+});  
+
 /**
  * Generate the Table Headers based on the custom namespaces set in localStorage.
  */
-Index.generateTableHeaders = function () {
-    const columnCount = localStorage.columnCount ? parseInt(localStorage.columnCount) : 4; 
+Index.generateTableHeaders = function (columnCount) {
     const headerRow = $("#header-row");
     headerRow.empty();
     headerRow.append(`<th id="titleheader">
@@ -400,9 +416,8 @@ Index.generateTableHeaders = function () {
  * Update the Table Headers based on the custom namespaces set in localStorage.
  */
 Index.updateTableHeaders = function () {
-    Index.generateTableHeaders(); 
-    
     let columnCount = localStorage.columnCount ? parseInt(localStorage.columnCount) : 4;
+    Index.generateTableHeaders(columnCount); 
 
     for (let i = 1; i <= columnCount; i++) {
         const customColumn = localStorage[`customColumn${i}`] || ""; 
