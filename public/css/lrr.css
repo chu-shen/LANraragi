@@ -29,20 +29,13 @@ td.custom2 {
   max-width: 100px;
 }
 
-#customheader3,
-td.customheader3 {
-  max-width: 80px;
-}
 
-#customheader4,
-td.customheader4 {
+th[id^="customheader"],
+td[id^="customheader"] {
   max-width: 70px;
 }
 
-#customheader5,
-td.customheader5 {
-  max-width: 50px;
-}
+
 
 #tagsheader,
 td.tags {
@@ -580,8 +573,8 @@ body.swal2-shown>[aria-hidden="true"] {
     padding: 2px;
   }
 
-  #customheader1,
-  #customheader2,
+  
+  th[id^="customheader"],
   #tagsheader,
   td.custom1,
   td.custom2,
@@ -653,8 +646,7 @@ body.swal2-shown>[aria-hidden="true"] {
   }
 
   #i2,
-  #customheader1,
-  #customheader2,
+  th[id^="customheader"],
   #tagsheader,
   td.custom1,
   td.custom2,

@@ -17,16 +17,10 @@ Index.pageSize = 100;
  */
 Index.initializeAll = function () {
     // Bind events to DOM
-    $(document).on("click.edit-header-1", "#edit-header-1", () => Index.promptCustomColumn(1));
-    $(document).on("click.edit-header-2", "#edit-header-2", () => Index.promptCustomColumn(2));
-    $(document).on("click.edit-header-3", "#edit-header-3", () => Index.promptCustomColumn(3));
-    $(document).on("click.edit-header-4", "#edit-header-4", () => Index.promptCustomColumn(4));
-    $(document).on("click.edit-header-5", "#edit-header-5", () => Index.promptCustomColumn(5));
-    $(document).on("click.edit-header-6", "#edit-header-6", () => Index.promptCustomColumn(6));
-    $(document).on("click.edit-header-7", "#edit-header-7", () => Index.promptCustomColumn(7));
-    $(document).on("click.edit-header-8", "#edit-header-8", () => Index.promptCustomColumn(8));
-    $(document).on("click.edit-header-9", "#edit-header-9", () => Index.promptCustomColumn(9));
-    $(document).on("click.edit-header-10", "#edit-header-10", () => Index.promptCustomColumn(10));
+    $(document).on("click", "[id^=edit-header-]", function () {
+        const headerIndex = $(this).attr("id").split("-")[2]; // 获取列的索引  
+        Index.promptCustomColumn(headerIndex);
+    });
     $(document).on("click.mode-toggle", ".mode-toggle", Index.toggleMode);
     $(document).on("change.page-select", "#page-select", () => IndexTable.dataTable.page($("#page-select").val() - 1).draw("page"));
     $(document).on("change.thumbnail-crop", "#thumbnail-crop", Index.toggleCrop);
@@ -377,42 +371,45 @@ Index.updateCarousel = function (e) {
 };
 
 /**
+ * Generate the Table Headers based on the custom namespaces set in localStorage.
+ */
+Index.generateTableHeaders = function () {
+    const columnCount = localStorage.columnCount ? parseInt(localStorage.columnCount) : 4; 
+    const headerRow = $("#header-row");
+    headerRow.empty();
+    headerRow.append(`<th id="titleheader">
+							<a>[% c.lh("Title") %]</a>
+						</th>`);
+
+    for (let i = 1; i <= columnCount; i++) {
+        const customColumn = localStorage[`customColumn${i}`] || `Header ${i}`;
+        const headerHtml = `  
+            <th id="customheader${i}">  
+                <i id="edit-header-${i}" class="fas fa-pencil-alt edit-header-btn" title="[% c.lh('Edit this column') %]"></i>  
+                <a id="header-${i}">[% c.lh("${customColumn.charAt(0).toUpperCase() + customColumn.slice(1)}") %]</a>  
+            </th>`;
+        headerRow.append(headerHtml);
+    }
+    headerRow.append(`<th id="tagsheader">
+							<a>[% c.lh("Tags") %]</a>
+						</th>`);
+};
+
+
+/**
  * Update the Table Headers based on the custom namespaces set in localStorage.
  */
 Index.updateTableHeaders = function () {
-    const cc1 = localStorage.customColumn1;
-    const cc2 = localStorage.customColumn2;
-    const cc3 = localStorage.customColumn3;
-    const cc4 = localStorage.customColumn4;
-    const cc5 = localStorage.customColumn5;
-    const cc6 = localStorage.customColumn6;
-    const cc7 = localStorage.customColumn7;
-    const cc8 = localStorage.customColumn8;
-    const cc9 = localStorage.customColumn9;
-    const cc10 = localStorage.customColumn10;
+    Index.generateTableHeaders(); 
+    
+    let columnCount = localStorage.columnCount ? parseInt(localStorage.columnCount) : 4;
 
-    $("#customcol1").val(cc1);
-    $("#customcol2").val(cc2);
-    $("#customcol3").val(cc3);
-    $("#customcol4").val(cc4);
-    $("#customcol5").val(cc5);
-    $("#customcol6").val(cc6);
-    $("#customcol7").val(cc7);
-    $("#customcol8").val(cc8);
-    $("#customcol9").val(cc9);
-    $("#customcol10").val(cc10);
-
-    // Modify text of <a> in headers
-    $("#header-1").html(cc1.charAt(0).toUpperCase() + cc1.slice(1));
-    $("#header-2").html(cc2.charAt(0).toUpperCase() + cc2.slice(1));
-    $("#header-3").html(cc3.charAt(0).toUpperCase() + cc3.slice(1));
-    $("#header-4").html(cc4.charAt(0).toUpperCase() + cc4.slice(1));
-    $("#header-5").html(cc5.charAt(0).toUpperCase() + cc5.slice(1));
-    $("#header-6").html(cc6.charAt(0).toUpperCase() + cc6.slice(1));
-    $("#header-7").html(cc7.charAt(0).toUpperCase() + cc7.slice(1));
-    $("#header-8").html(cc8.charAt(0).toUpperCase() + cc8.slice(1));
-    $("#header-9").html(cc9.charAt(0).toUpperCase() + cc9.slice(1));
-    $("#header-10").html(cc10.charAt(0).toUpperCase() + cc10.slice(1));
+    for (let i = 1; i <= columnCount; i++) {
+        const customColumn = localStorage[`customColumn${i}`] || ""; 
+        $(`#customcol${i}`).val(customColumn);
+ 
+        $(`#header-${i}`).html(customColumn.charAt(0).toUpperCase() + customColumn.slice(1) || `Header ${i}`);
+    }  
 };
 
 /**

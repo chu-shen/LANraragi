@@ -152,51 +152,8 @@
 
 			<table class="itg datatables">
 				<thead class="list" style="display: none;">
-					<tr>
-						<th id="titleheader">
-							<a>[% c.lh("Title") %]</a>
-						</th><th id="customheader4">
-							<i id="edit-header-1" class="fas fa-pencil-alt edit-header-btn" title="[% c.lh('Edit this column') %]"></i>
-							<a id="header-1">[% c.lh("Date_added") %]</a>
-						</th>
-						<th id="customheader3">
-							<i id="edit-header-2" class="fas fa-pencil-alt edit-header-btn" title="[% c.lh('Edit this column') %]"></i>
-							<a id="header-2">[% c.lh("Rating") %]</a>
-						</th>
-						<th id="customheader1">
-							<i id="edit-header-3" class="fas fa-pencil-alt edit-header-btn" title="[% c.lh('Edit this column') %]"></i>
-							<a id="header-3">[% c.lh("Comment") %]</a>
-						</th><th id="customheader4">
-							<i id="edit-header-4" class="fas fa-pencil-alt edit-header-btn" title="[% c.lh('Edit this column') %]"></i>
-							<a id="header-4">[% c.lh("Artist") %]</a>
-						</th>
-						<th id="customheader2">
-							<i id="edit-header-5" class="fas fa-pencil-alt edit-header-btn" title="[% c.lh('Edit this column') %]"></i>
-							<a id="header-5">[% c.lh("Group") %]</a>
-						</th></th>
-						<th id="customheader2">
-							<i id="edit-header-6" class="fas fa-pencil-alt edit-header-btn" title="[% c.lh('Edit this column') %]"></i>
-							<a id="header-6">[% c.lh("Series") %]</a>
-						</th>
-						<th id="customheader4">
-							<i id="edit-header-7" class="fas fa-pencil-alt edit-header-btn" title="[% c.lh('Edit this column') %]"></i>
-							<a id="header-7">[% c.lh("Language") %]</a>
-						</th>
-						<th id="customheader5">
-							<i id="edit-header-8" class="fas fa-pencil-alt edit-header-btn" title="[% c.lh('Edit this column') %]"></i>
-							<a id="header-8">[% c.lh("Event") %]</a>
-						</th>
-						<th id="customheader4">
-							<i id="edit-header-9" class="fas fa-pencil-alt edit-header-btn" title="[% c.lh('Edit this column') %]"></i>
-							<a id="header-9">[% c.lh("Category") %]</a>
-						</th>
-						<th id="customheader1">
-							<i id="edit-header-10" class="fas fa-pencil-alt edit-header-btn" title="[% c.lh('Edit this column') %]"></i>
-							<a id="header-10">[% c.lh("Other") %]</a>
-						</th>
-						<th id="tagsheader">
-							<a>[% c.lh("Tags") %]</a>
-						</th>
+					<tr id="header-row">
+						<!--dynamic row-->
 					</tr>
 				</thead>
 				<tbody class="list" style="display: none;">
