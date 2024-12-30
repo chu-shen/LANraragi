@@ -282,10 +282,10 @@ IndexTable.drawCallback = function () {
         // check currentSort, if out of range, back to use title
         if (currentSort > currentCustomColumnCount) {
             localStorage.indexSort = 0;
-        }  
+        }
         if (currentSort >= 1 && currentSort <= columnCount) {
             currentSort = localStorage[`customColumn${currentSort}`] || `Header ${currentSort}`;
-        }else {
+        } else {
             currentSort = "title";
         }
 
@@ -336,8 +336,8 @@ IndexTable.consumeURLParameters = function () {
     // check currentSort, if out of range, back to use title
     if (localStorage.indexSort > currentCustomColumnCount) {
         localStorage.indexSort = 0;
-        order[0][0] = 0;
-    }  
+        order[0][0] = localStorage.indexSort;
+    }
 
     if (params.has("sortdir")) {
         order[0][1] = params.get("sortdir");
