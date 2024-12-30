@@ -60,7 +60,6 @@ IndexTable.initializeAll = function () {
     columns.unshift({ data: null, className: "title itd", name: "title", render: IndexTable.renderTitle });
     columns.push({ data: "tags", className: "tags itd", name: "tags", orderable: false, render: IndexTable.renderTags });
 
-
     // Datatables configuration
     IndexTable.dataTable = $(".datatables").DataTable({
         serverSide: true,

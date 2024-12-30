@@ -18,7 +18,7 @@ Index.pageSize = 100;
 Index.initializeAll = function () {
     // Bind events to DOM
     $(document).on("click", "[id^=edit-header-]", function () {
-        const headerIndex = $(this).attr("id").split("-")[2]; // 获取列的索引  
+        const headerIndex = $(this).attr("id").split("-")[2];
         Index.promptCustomColumn(headerIndex);
     });
     $(document).on("click.mode-toggle", ".mode-toggle", Index.toggleMode);
@@ -376,7 +376,6 @@ Index.updateCarousel = function (e) {
     }
 };
 
-
 Index.handleColumnNum = function () {
     const columnCountSelect = document.getElementById("columnCount");
     const selectedCount = columnCountSelect.value;
@@ -418,7 +417,7 @@ Index.updateTableHeaders = function () {
     Index.generateTableHeaders(columnCount);
 
     for (let i = 1; i <= columnCount; i++) {
-        const customColumn = localStorage[`customColumn${i}`] || "";
+        const customColumn = localStorage[`customColumn${i}`] || `Header ${i}`;
         $(`#customcol${i}`).val(customColumn);
 
         $(`#header-${i}`).html(customColumn.charAt(0).toUpperCase() + customColumn.slice(1) || `Header ${i}`);
@@ -832,6 +831,9 @@ Index.migrateProgress = function () {
     }
 };
 
+/**
+ * Restore and update column width, data store in localstorge.
+ */
 Index.resizableColumns = function () {
     let currentHeader;
     let startX;
@@ -846,7 +848,7 @@ Index.resizableColumns = function () {
         }
         // init
         header.addEventListener('mousedown', function (event) {
-            if (event.offsetX > header.offsetWidth - 10) { 
+            if (event.offsetX > header.offsetWidth - 10) {
                 currentHeader = header;
                 startX = event.clientX;
                 startWidth = header.offsetWidth;
@@ -886,7 +888,6 @@ Index.resizableColumns = function () {
         document.body.style.cursor = 'default';
     }
 };
-
 
 jQuery(() => {
     Index.initializeAll();
