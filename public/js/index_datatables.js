@@ -46,7 +46,7 @@ IndexTable.initializeAll = function () {
     $.fn.dataTableExt.oStdClasses.sStripeOdd = "gtr0";
     $.fn.dataTableExt.oStdClasses.sStripeEven = "gtr1";
 
-    // set columns
+    // set custom columns
     let columns = [];
     let columnCount = localStorage.columnCount ? parseInt(localStorage.columnCount) : 2;
     for (let i = 1; i <= columnCount; i++) {

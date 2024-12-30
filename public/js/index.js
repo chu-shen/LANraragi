@@ -127,10 +127,10 @@ Index.initializeAll = function () {
 
     const columnCountSelect = document.getElementById("columnCount");
     const storedColumnCount = localStorage.getItem("columnCount");
-    if (storedColumnCount) {
-        columnCountSelect.value = storedColumnCount;
-    }
+    columnCountSelect.value = storedColumnCount ? storedColumnCount : 2;
+    
     Index.updateTableHeaders();
+    Index.resizableColumns();
 };
 
 Index.toggleMode = function () {
@@ -831,6 +831,62 @@ Index.migrateProgress = function () {
         console.log("No local reading progression to migrate");
     }
 };
+
+Index.resizableColumns = function () {
+    let currentHeader;
+    let startX;
+    let startWidth;
+
+    const headers = document.querySelectorAll("#header-row th");
+    headers.forEach((header, index) => {
+        // restore Column Width
+        const savedWidth = localStorage.getItem(`resizeColumn${index}`);
+        if (savedWidth) {
+            header.style.width = savedWidth;
+        }
+        // init
+        header.addEventListener('mousedown', function (event) {
+            if (event.offsetX > header.offsetWidth - 10) { 
+                currentHeader = header;
+                startX = event.clientX;
+                startWidth = header.offsetWidth;
+
+                document.addEventListener('mousemove', resizeColumn);
+                document.addEventListener('mouseup', stopResize);
+
+                document.body.style.cursor = 'col-resize';
+            }
+        });
+        header.addEventListener('mousemove', function (event) {
+            if (event.offsetX > header.offsetWidth - 10) {
+                header.style.cursor = 'col-resize';
+            } else {
+                header.style.cursor = 'default';
+            }
+        });
+    });
+
+    function resizeColumn(event) {
+        if (currentHeader) {
+            const newWidth = startWidth + (event.clientX - startX);
+            if (newWidth > 0) {
+                currentHeader.style.width = newWidth + 'px';
+            }
+        }
+    }
+
+    function stopResize() {
+        if (currentHeader) {
+            const index = Array.from(headers).indexOf(currentHeader);
+            localStorage.setItem(`resizeColumn${index}`, currentHeader.style.width);
+            currentHeader = null;
+        }
+        document.removeEventListener('mousemove', resizeColumn);
+        document.removeEventListener('mouseup', stopResize);
+        document.body.style.cursor = 'default';
+    }
+};
+
 
 jQuery(() => {
     Index.initializeAll();
