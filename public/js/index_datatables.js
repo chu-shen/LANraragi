@@ -48,7 +48,7 @@ IndexTable.initializeAll = function () {
 
     // set columns
     let columns = [];
-    let columnCount = localStorage.columnCount ? parseInt(localStorage.columnCount) : 4;
+    let columnCount = localStorage.columnCount ? parseInt(localStorage.columnCount) : 2;
     for (let i = 1; i <= columnCount; i++) {
         columns.push({
             data: "tags",

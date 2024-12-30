@@ -143,18 +143,18 @@
 				<div style="margin-left:auto">[% c.lh("Go to Page:") %]
 					<select class="favtag-btn" id="page-select">
 					</select>
+					<label for="columnCount">Columns:</label>
+					<select class="favtag-btn" id="columnCount">
+						<script>  
+							for (let i = 1; i <= 10; i++) {  
+								document.write(`<option value="${i}">${i}</option>`);  
+							}  
+						</script> 
+					</select>
 					<a class="fa fa-list fa-2x mode-toggle thumbnail-toggle table-option" href="#"
 						title="[% c.lh('Switch to Compact Mode') %]"></a>
 					<a class="fa fa-table fa-2x mode-toggle compact-toggle table-option" href="#"
 						title="[% c.lh('Switch to Thumbnail Mode') %]"></a>
-					<label for="column-count">选择列数:</label>
-					<select class="favtag-btn" id="column-count">
-						<script>  
-							for (let i = 1; i <= 10; i++) {  
-								document.write(`<option value="${i}">${i} 列</option>`);  
-							}  
-						</script> 
-					</select>
 				</div>
 			</div>
 

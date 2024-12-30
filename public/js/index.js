@@ -25,6 +25,7 @@ Index.initializeAll = function () {
     $(document).on("change.page-select", "#page-select", () => IndexTable.dataTable.page($("#page-select").val() - 1).draw("page"));
     $(document).on("change.thumbnail-crop", "#thumbnail-crop", Index.toggleCrop);
     $(document).on("change.namespace-sortby", "#namespace-sortby", Index.handleCustomSort);
+    $(document).on("change.columnCount", "#columnCount", Index.handleColumnNum);
     $(document).on("click.order-sortby", "#order-sortby", Index.toggleOrder);
     $(document).on("click.open-carousel", ".collapsible-title", Index.toggleCarousel);
     $(document).on("click.reload-carousel", "#reload-carousel", Index.updateCarousel);
@@ -124,6 +125,11 @@ Index.initializeAll = function () {
             IndexTable.initializeAll();
         });
 
+    const columnCountSelect = document.getElementById("columnCount");
+    const storedColumnCount = localStorage.getItem("columnCount");
+    if (storedColumnCount) {
+        columnCountSelect.value = storedColumnCount;
+    }
     Index.updateTableHeaders();
 };
 
@@ -371,21 +377,13 @@ Index.updateCarousel = function (e) {
 };
 
 
-document.addEventListener("DOMContentLoaded", function () {
-    const columnCountSelect = document.getElementById("column-count");
-
-    const storedColumnCount = localStorage.getItem("column-count");
-    if (storedColumnCount) {
-        columnCountSelect.value = storedColumnCount;
-        Index.generateTableHeaders(storedColumnCount);
-    }
-
-    columnCountSelect.addEventListener("change", function () {
-        const selectedCount = columnCountSelect.value;
-        localStorage.setItem("column-count", selectedCount);
-        Index.generateTableHeaders(selectedCount);
-    });
-});  
+Index.handleColumnNum = function () {
+    const columnCountSelect = document.getElementById("columnCount");
+    const selectedCount = columnCountSelect.value;
+    localStorage.setItem("columnCount", selectedCount);
+    Index.updateTableHeaders();
+    document.location.reload(true);
+};
 
 /**
  * Generate the Table Headers based on the custom namespaces set in localStorage.
@@ -394,20 +392,20 @@ Index.generateTableHeaders = function (columnCount) {
     const headerRow = $("#header-row");
     headerRow.empty();
     headerRow.append(`<th id="titleheader">
-							<a>[% c.lh("Title") %]</a>
+							<a>Title</a>
 						</th>`);
 
     for (let i = 1; i <= columnCount; i++) {
         const customColumn = localStorage[`customColumn${i}`] || `Header ${i}`;
         const headerHtml = `  
             <th id="customheader${i}">  
-                <i id="edit-header-${i}" class="fas fa-pencil-alt edit-header-btn" title="[% c.lh('Edit this column') %]"></i>  
-                <a id="header-${i}">[% c.lh("${customColumn.charAt(0).toUpperCase() + customColumn.slice(1)}") %]</a>  
+                <i id="edit-header-${i}" class="fas fa-pencil-alt edit-header-btn" title="Edit this column"></i>  
+                <a id="header-${i}">${customColumn.charAt(0).toUpperCase() + customColumn.slice(1)}</a>  
             </th>`;
         headerRow.append(headerHtml);
     }
     headerRow.append(`<th id="tagsheader">
-							<a>[% c.lh("Tags") %]</a>
+							<a>Tags</a>
 						</th>`);
 };
 
@@ -416,15 +414,15 @@ Index.generateTableHeaders = function (columnCount) {
  * Update the Table Headers based on the custom namespaces set in localStorage.
  */
 Index.updateTableHeaders = function () {
-    let columnCount = localStorage.columnCount ? parseInt(localStorage.columnCount) : 4;
-    Index.generateTableHeaders(columnCount); 
+    let columnCount = localStorage.columnCount ? parseInt(localStorage.columnCount) : 2;
+    Index.generateTableHeaders(columnCount);
 
     for (let i = 1; i <= columnCount; i++) {
-        const customColumn = localStorage[`customColumn${i}`] || ""; 
+        const customColumn = localStorage[`customColumn${i}`] || "";
         $(`#customcol${i}`).val(customColumn);
- 
+
         $(`#header-${i}`).html(customColumn.charAt(0).toUpperCase() + customColumn.slice(1) || `Header ${i}`);
-    }  
+    }
 };
 
 /**
