@@ -851,6 +851,7 @@ Index.resizableColumns = function () {
         // init
         header.addEventListener('mousedown', function (event) {
             if (event.offsetX > header.offsetWidth - 10) {
+                event.preventDefault();
                 currentHeader = header;
                 startX = event.clientX;
                 startWidth = header.offsetWidth;
@@ -872,6 +873,7 @@ Index.resizableColumns = function () {
 
     function resizeColumn(event) {
         if (currentHeader) {
+            currentHeader.style.cursor = 'col-resize';
             const newWidth = startWidth + (event.clientX - startX);
             if (newWidth > 0) {
                 currentHeader.style.width = newWidth + 'px';
@@ -888,6 +890,8 @@ Index.resizableColumns = function () {
         document.removeEventListener('mousemove', resizeColumn);
         document.removeEventListener('mouseup', stopResize);
         document.body.style.cursor = 'default';
+
+        document.location.reload(true);
     }
 };
 
