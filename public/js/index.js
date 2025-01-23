@@ -392,14 +392,17 @@ Index.handleColumnNum = function () {
 Index.generateTableHeaders = function (columnCount) {
     const headerRow = $("#header-row");
     headerRow.empty();
-    headerRow.append(`<th id="titleheader">
+    const headerWidth = localStorage.getItem(`resizeColumn0`) || "";
+    headerRow.append(`<th id="titleheader" width="${headerWidth}">
 							<a>Title</a>
 						</th>`);
 
     for (let i = 1; i <= columnCount; i++) {
         const customColumn = localStorage[`customColumn${i}`] || `Header ${i}`;
+        const colWidth = localStorage.getItem(`resizeColumn${i}`) || "";
+
         const headerHtml = `  
-            <th id="customheader${i}">  
+            <th id="customheader${i}" width="${colWidth}">  
                 <i id="edit-header-${i}" class="fas fa-pencil-alt edit-header-btn" title="Edit this column"></i>  
                 <a id="header-${i}">${customColumn.charAt(0).toUpperCase() + customColumn.slice(1)}</a>  
             </th>`;
@@ -602,10 +605,10 @@ Index.loadContextMenuRatings = (id) => Server.callAPI(`/api/archives/${id}/metad
                     if(i === 0) delete tags["rating"];
                     else tags["rating"] = [ratings[i].name];
 
-                    Server.updateTagsFromArchive(id, Object.entries(tags).map(([namespace, tag]) => LRR.buildNamespacedTag(namespace, tag)));
+                    Server.updateTagsFromArchive(id, Object.entries(tags).flatMap(([namespace, tagArray]) => tagArray.map(tag => LRR.buildNamespacedTag(namespace, tag))));
 
                     // Update the rating info without reload but have to refresh everything.
-                    IndexTable.dataTable.ajax.reload();
+                    IndexTable.dataTable.ajax.reload(null, false);
                     Index.updateCarousel();
                     $(this).parents("ul.context-menu-list").find("input[type='checkbox']").toArray().filter((x) => x !== this).forEach(x => x.checked = false);
                 },
@@ -847,26 +850,31 @@ Index.migrateProgress = function () {
  */
 Index.resizableColumns = function () {
     let currentHeader;
+    let currentIndex;
     let startX;
     let startWidth;
 
     const headers = document.querySelectorAll("#header-row th");
-    headers.forEach((header, index) => {
-        // restore Column Width
-        const savedWidth = localStorage.getItem(`resizeColumn${index}`);
-        if (savedWidth) {
-            header.style.width = savedWidth;
-        }
+    headers.forEach((header, i) => {
+        
         // init
         header.addEventListener('mousedown', function (event) {
             if (event.offsetX > header.offsetWidth - 10) {
-                event.preventDefault();
+                
                 currentHeader = header;
+                currentIndex = Array.from(headers).indexOf(currentHeader);
                 startX = event.clientX;
-                startWidth = header.offsetWidth;
+
+                startWidth = localStorage.getItem(`resizeColumn${currentIndex}`) || header.width || header.offsetWidth;
+                if (!Number.isInteger(startWidth))
+                    startWidth = parseInt(startWidth.replace('px', ''));
 
                 document.addEventListener('mousemove', resizeColumn);
                 document.addEventListener('mouseup', stopResize);
+
+                // Disable DataTables sorting while resizing
+                // (Unfortunately, sorting is perma-disabled after this..)
+                $('th').unbind('click.DT');
 
                 document.body.style.cursor = 'col-resize';
             }
@@ -884,23 +892,30 @@ Index.resizableColumns = function () {
         if (currentHeader) {
             currentHeader.style.cursor = 'col-resize';
             const newWidth = startWidth + (event.clientX - startX);
+            const minWidth = parseInt(window.getComputedStyle(currentHeader).minWidth.replace('px', ''));
+            const maxWidth = parseInt(window.getComputedStyle(currentHeader).maxWidth.replace('px', ''));
+
+            if (newWidth > maxWidth) 
+                newWidth = maxWidth;
+            
+            if (newWidth < minWidth) 
+                newWidth = minWidth;
+            
             if (newWidth > 0) {
                 currentHeader.style.width = newWidth + 'px';
+                localStorage.setItem(`resizeColumn${currentIndex}`, newWidth + 'px');
             }
         }
     }
 
     function stopResize() {
         if (currentHeader) {
-            const index = Array.from(headers).indexOf(currentHeader);
-            localStorage.setItem(`resizeColumn${index}`, currentHeader.style.width);
             currentHeader = null;
         }
         document.removeEventListener('mousemove', resizeColumn);
         document.removeEventListener('mouseup', stopResize);
-        document.body.style.cursor = 'default';
 
-        document.location.reload(true);
+        document.body.style.cursor = 'default';
     }
 };
 
