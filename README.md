@@ -1,11 +1,5 @@
 与上游 master 分支同步
-- 动态列数
-    - `public/css/lrr.css`
-    - `public/js/index.js`
-    - `public/js/index_datatables.js`
-    - `templates/index.html.tt2`
-    - `locales/template/zh.po`
-    - `locales/template/en.po`
+- ~~动态列数~~ 已 PR，上游已合并
 - 添加评分及评论插件，右键档案使用
     - `lib/LANraragi/Plugin/Metadata/Comment.pm`
       - 新出的`Summary`字段应该指的是自带的元数据，那就与此字段不冲突
