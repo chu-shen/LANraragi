@@ -73,6 +73,13 @@ Reader.initializeAll = function () {
 
         $("#archive-categories").append(html);
     });
+    $(document).on("click.add-rating", "#add-rating", () => {
+        if ($("#rating").val().startsWith("rating-")) {
+            const rating = $("#rating").val().replace("rating-", "");
+            Server.callAPI(`/api/plugins/queue?plugin=rating&id=${Reader.id}&arg=${rating}`, "POST", `Added Rating ${rating} for ${Reader.id}!`, "Error while executing Script :", null)
+            return;
+        }
+    });
     $(document).on("click.remove-category", ".remove-category", (e) => {
         Server.removeArchiveFromCategory(Reader.id, $(e.target).attr("data-id"));
         $(e.target).parent().remove();

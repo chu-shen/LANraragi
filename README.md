@@ -4,6 +4,7 @@
     - `lib/LANraragi/Plugin/Metadata/Comment.pm`
       - 新出的`Summary`字段应该指的是自带的元数据，那就与此字段不冲突
     - `lib/LANraragi/Plugin/Metadata/Rating.pm`
+      - 阅读界面也可直接添加评分
       - 有人在进行类似的工作
 - 略微调整EHentai插件搜索逻辑
     - `lib/LANraragi/Plugin/Metadata/EHentai.pm`
