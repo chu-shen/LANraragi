@@ -77,7 +77,6 @@ Reader.initializeAll = function () {
         if ($("#rating").val().startsWith("rating-")) {
             const rating = $("#rating").val().replace("rating-", "");
             Server.callAPI(`/api/plugins/queue?plugin=rating&id=${Reader.id}&arg=${rating}`, "POST", `Added Rating ${rating} for ${Reader.id}!`, "Error while executing Script :", null)
-            return;
         }
     });
     $(document).on("click.remove-category", ".remove-category", (e) => {
