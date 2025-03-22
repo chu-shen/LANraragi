@@ -22,7 +22,7 @@ sub plugin_info {
         type        => "script",
         namespace   => "addehentaimetatdata",
         author      => "CHUSHEN",
-        version     => "1.0",
+        version     => "1.1",
         description => "Using the Ehentai plugin to search for metadata for files that do not have a source tag. If No matching EH Gallery Found!, will add source:nogalleryinehentai",
         oneshot_arg => "Search gallery again with source:nogalleryinehentai. True/False",
         parameters => [
@@ -77,7 +77,7 @@ sub run_script {
         }
         if ( exists $ehentai_tags->{error} ) {
             $logger->warn("Ehentai plugin returned an error: " . $ehentai_tags->{error});
-            if ($ehentai_tags->{error} eq "No matching EH Gallery Found!") {
+            if ($ehentai_tags->{error} =~ /No matching EH Gallery Found!/) {
                 $ehentai_tags->{new_tags} = "source:nogalleryinehentai";
                 $logger->info("Add tag: " . $ehentai_tags->{new_tags});
             }else{
