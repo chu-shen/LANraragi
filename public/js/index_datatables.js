@@ -49,7 +49,8 @@ IndexTable.initializeAll = function () {
     // set custom columns
     let columns = [];
     columns.push({ data: null, className: "title itd", name: "title", render: IndexTable.renderTitle });
-    let columnCount = localStorage.columnCount ? parseInt(localStorage.columnCount) : 2;
+    const columnCount = Index.getColumnCount();
+    // set custom columns
     for (let i = 1; i <= columnCount; i++) {
         columns.push({
             data: "tags",
@@ -74,9 +75,10 @@ IndexTable.initializeAll = function () {
         order: [[0, "asc"]],
         dom: "<\"top\"ip>rt<\"bottom\"p><\"clear\">",
         language: {
-            info: "Showing _START_ to _END_ of _TOTAL_ ancient chinese lithographies.",
-            infoEmpty: `<h1><br/><i class=\"fas fa-4x fa-toilet-paper-slash\"></i><br/><br/>No archives to show you! Try <a href="${new LRR.apiURL("/upload")}">uploading some</a>?</h1><br/>`,
-            processing: "<div id=\"progress\" class=\"indeterminate\"\"><div class=\"bar-container\"><div class=\"bar\" style=\" width: 80%; \"></div></div></div>",
+            info: I18N.IndexPageCount,
+            infoEmpty: `<h1><br/><i class="fas fa-4x fa-toilet-paper-slash"></i><br/><br/>
+                        ${I18N.IndexNoArcsFound(new LRR.apiURL("/upload"))}</h1><br/>`,
+            processing: `<div id="progress" class="indeterminate"><div class="bar-container"><div class="bar" style=" width: 80%; "></div></div></div>`,
         },
         preDrawCallback: IndexTable.initializeThumbView, // callbacks for thumbnail view
         drawCallback: IndexTable.drawCallback,
@@ -167,8 +169,8 @@ IndexTable.renderTitle = function (data, type) {
     if (type === "display") {
         // For compact mode, the thumbnail API call enforces no_fallback=true in order to queue Minion jobs for missing thumbnails.
         // (Since compact mode is the "base", it's always loaded first even if you're in table mode)
-        return `${LRR.buildProgressDiv(data)} 
-                <a class="context-menu" id="${data.arcid}" onmouseover="IndexTable.buildImageTooltip(this)" href="${new LRR.apiURL(`/reader?id=${data.arcid}`)}"> 
+        const bookmarkIcon = LRR.buildBookmarkIconElement(data.arcid, "title-bookmark-icon");
+        return `${LRR.buildProgressDiv(data)}${bookmarkIcon}<a class="context-menu" id="${data.arcid}" onmouseover="IndexTable.buildImageTooltip(this)" href="${new LRR.apiURL(`/reader?id=${data.arcid}`)}"> 
                     ${LRR.encodeHTML(data.title)}
                 </a>
                 <div class="caption" style="display: none;">
