@@ -14,6 +14,8 @@
   - 根据档案名查找重复档案并保存至`DuplicateArchives`分类：`lib/LANraragi/Plugin/Scripts/DuplicateFinder.pm`
   - 使用自定义 OpenAI 参数翻译标题：`lib/LANraragi/Plugin/Metadata/TranslateTitleByAI.pm`
 
+Docker: <https://hub.docker.com/r/chu1shen/lanraragi>
+
 [<img src="https://img.shields.io/docker/pulls/difegue/lanraragi.svg">](https://hub.docker.com/r/difegue/lanraragi/)
 [<img src="https://img.shields.io/github/downloads/difegue/lanraragi/total.svg">](https://github.com/Difegue/LANraragi/releases)
 [<img src="https://img.shields.io/github/release/difegue/lanraragi.svg?label=latest%20release">](https://github.com/Difegue/LANraragi/releases/latest)
