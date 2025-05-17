@@ -1,4 +1,4 @@
-与上游 master 分支同步
+与上游同步
 
 - ~~动态列数~~ 已 PR，上游已合并
 - 添加评分及评论插件，右键档案使用
@@ -9,7 +9,7 @@
     - 有人在进行类似的工作
 - 略微调整EHentai插件搜索逻辑
   - `lib/LANraragi/Plugin/Metadata/EHentai.pm`
-- 添加插件
+- 添加插件，插件使用说明见[LANraragi-scripts](https://github.com/chu-shen/LANraragi-scripts)
   - [为缺少source标签的档案添加Ehentai元数据](https://github.com/chu-shen/LANraragi-scripts#%E4%B8%BA%E7%BC%BA%E5%B0%91source%E6%A0%87%E7%AD%BE%E7%9A%84%E6%A1%A3%E6%A1%88%E6%B7%BB%E5%8A%A0ehentai%E5%85%83%E6%95%B0%E6%8D%AE)：`lib/LANraragi/Plugin/Scripts/addEhentaiMetadata.pm`
   - 根据档案名查找重复档案并保存至`DuplicateArchives`分类：`lib/LANraragi/Plugin/Scripts/DuplicateFinder.pm`
   - 使用自定义 OpenAI 参数翻译标题：`lib/LANraragi/Plugin/Metadata/TranslateTitleByAI.pm`
