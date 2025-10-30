@@ -200,17 +200,12 @@ sub ehentai_parse ( $url, $ua ) {
     # Get the first row of the search results
     # The "glink" class is parented by a <a> tag containing the gallery link in href.
     # This works in Minimal, Minimal+ and Compact modes, which should be enough.
-    my $firstgal;
-    if (my $glink = $dom->at(".glink")) {
-        if (my $parent = $glink->parent) {
-            $firstgal = $parent->attr('href');
-        }
-    }
-    unless ($firstgal) {
-        $logger->warn("no gallery found in this url");
-        $logger->debug("url: $url ");
+    my $glink_element = $dom->at(".glink");
+    if (!$glink_element) {
+        $logger->debug("No gallery found in search results");
         return ("", "");
     }
+    my $firstgal = $glink_element->parent->attr('href');
 
     # A EH link looks like xhentai.org/g/{gallery id}/{gallery token}
     $url = ( split( 'hentai.org/g/', $firstgal ) )[1];

@@ -120,10 +120,10 @@ root/
 |- tools         <- Contains scripts for building and installing LRR.
 |  |- _screenshots  <- Screenshots
 |  |- Documentation <- What you're reading right now
-|  |- build         <- Build tools and scrpits
-|     |- windows          <- Windows build script and submodule link to the Karen WPF Bootstrapper
+|  |- build         <- Build tools and scripts
 |     |- docker           <- Dockerfile and configuration files for LRR Docker Container
 |     |- homebrew         <- Script and configuration files for the LRR Homebrew cask
+|     |- windows          <- MSYS2 Windows build scripts, patches and submodule link to the Karen WPF Bootstrapper
 |  |- cpanfile      <- Perl dependencies description
 |  |- install.pl    <- LANraragi Installer
 |  +- lanraragi-systemd.service <- Example SystemD service
@@ -184,7 +184,6 @@ The base architecture is as follows:
 |  |- title <- Title of the archive, as set by the User
 |  |- file <- Filesystem path to archive
 |  |- isnew <- Whether the archive has been opened in LRR once or not
-|  |- filesizes <- Size in bytes of each file in the archive, as a serialized JSON array. This value is only present if the archive has been opened once for reading.
 |  |- pagecount <- Number of pages of the archive file
 |  |- progress <- Reading progress, if server-side progress is enabled
 |  +- thumbhash <- SHA-1 hash of the first image of the archive
