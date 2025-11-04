@@ -15,11 +15,11 @@ sub plugin_info {
         type        => "metadata",
         namespace   => "translatetitlebyai",
         author      => "CHUSHEN",
-        version     => "1.0",
+        version     => "1.1",
         description => "Translate title by AI",
         parameters  => [
             { type => 'string', desc => 'OpenAI API Key' },
-            { type => 'string', desc => 'Translation Prompt', default_value => 'Translate this title to English:' },
+            { type => 'string', desc => 'Translation Prompt', default_value => 'Translate this title to English' },
             { type => 'string', desc => 'API URL (optional). Default: https://api.openai.com/v1/chat/completions', default_value => 'https://api.openai.com/v1/chat/completions' },
             { type => 'string', desc => 'Model (optional). Default: gpt-3.5-turbo', default_value => 'gpt-3.5-turbo' },
             { type => 'int', desc => 'Temperature (optional). Default: 1.3', default_value => 1.3 },
@@ -40,10 +40,18 @@ sub get_tags {
         die "API key is required\n";
     }
 
+    $prompt = 'Translate this title to English' if !defined $prompt || $prompt eq '';
+    $url = 'https://api.openai.com/v1/chat/completions' if !defined $url || $url eq '';
+    $model = 'gpt-3.5-turbo' if !defined $model || $model eq '';
+    $temperature = 1.3 if !defined $temperature || $temperature eq '';
+    $temperature = $temperature + 0;
+    $tag_name = 'TranslateTitleByAI' if !defined $tag_name || $tag_name eq '';
+
+
     my $title = $lrr_info->{archive_title};
     my $tags = $lrr_info->{existing_tags};
 
-    my $prompt = "$prompt: $title";
+    my $full_prompt = "$prompt: $title";
 
     my $ua = Mojo::UserAgent->new;
 
@@ -54,7 +62,7 @@ sub get_tags {
                 'Accept' => 'application/json'
             } => json => {
                 model       => $model,
-                messages    => [{ role => "user", content => $prompt}],
+                messages    => [{ role => "user", content => $full_prompt}],
                 temperature => $temperature,
                 stream      => false
             }
