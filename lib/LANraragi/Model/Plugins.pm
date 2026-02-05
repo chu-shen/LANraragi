@@ -21,6 +21,7 @@ use LANraragi::Utils::Logging  qw(get_logger);
 use LANraragi::Utils::Tags     qw(rewrite_tags split_tags_to_array);
 use LANraragi::Utils::Plugins  qw(get_plugin_parameters get_plugin);
 use LANraragi::Utils::Redis    qw(redis_decode);
+use LANraragi::Utils::Path     qw(create_path);
 
 # Sub used by Auto-Plugin.
 sub exec_enabled_plugins_on_file ($id) {
@@ -236,7 +237,7 @@ sub exec_metadata_plugin ( $plugin, $id, %args ) {
             archive_title  => $title,
             existing_tags  => $tags,
             thumbnail_hash => $thumbhash,
-            file_path      => $file,
+            file_path      => create_path( $file ),
             user_agent     => $ua,
             oneshot_param  => $args{'oneshot'}    # for old style plugins compatibility
         );

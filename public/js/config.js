@@ -1,5 +1,6 @@
 /**
- * Config Operations.
+ * Config Operations
+ * @global
  */
 const Config = {};
 

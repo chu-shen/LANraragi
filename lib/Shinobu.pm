@@ -33,7 +33,7 @@ use LANraragi::Utils::Database   qw(invalidate_cache compute_id change_archive_i
 use LANraragi::Utils::Logging    qw(get_logger);
 use LANraragi::Utils::Generic    qw(is_archive);
 use LANraragi::Utils::Redis      qw(redis_encode);
-use LANraragi::Utils::Path       qw(create_path open_path find_path);
+use LANraragi::Utils::Path       qw(create_path open_path find_path get_archive_path);
 
 use LANraragi::Model::Config;
 use LANraragi::Model::Plugins;
@@ -233,7 +233,7 @@ sub add_to_filemap ( $redis_cfg, $file ) {
         # Filename sanity check
         if ( $redis_arc->exists($id) ) {
 
-            my $filecheck = $redis_arc->hget( $id, "file" );
+            my $filecheck = get_archive_path( $redis_arc, $id );
 
             #Update the real file path and title if they differ from the saved one
             #This is meant to always track the current filename for the OS.

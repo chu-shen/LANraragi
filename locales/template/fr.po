@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-05-04 20:02+0200\n"
-"PO-Revision-Date: 2025-09-22 22:39+0000\n"
+"PO-Revision-Date: 2025-11-25 02:11+0000\n"
 "Last-Translator: Difegue <8237712+Difegue@users.noreply.github.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/lanraragi/"
 "lanraragi-source/fr/>\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.14-dev\n"
+"X-Generator: Weblate 5.15-dev\n"
 
 # Sample Data
 # ------Start of Backup.html.tt2------
@@ -713,6 +713,9 @@ msgstr "Sauvegarder les métadonnées"
 
 msgid "Delete Archive"
 msgstr "Delete Archive"
+
+msgid "Read Archive"
+msgstr ""
 
 msgid "Return to Library"
 msgstr "Return to Library"
@@ -1891,3 +1894,20 @@ msgstr "Erreur lors du changement de page automatique !"
 
 msgid "Please set the auto next page interval to a positive number."
 msgstr "Veuillez définir un laps de temps positif."
+
+msgid "The maximum value allowed is 4GB."
+msgstr "La valeur maximale autorisée est de 4Go."
+
+msgid "Authenticated Progress Tracking"
+msgstr "Suivi de la lecture avec authentification"
+
+msgid "If enabled, server-side progress will only be saved if you're logged in with a password, and will override clientside progress. This allows guests to browse without affecting the main user's progress."
+msgstr ""
+"Si activé, la progression de lecture ne sera sauvegardée sur le serveur que "
+"si vous êtes admin. Ceci permet à des invités d'utiliser votre instance sans "
+"affecter votre progression de lecture."
+
+msgid "Combine with clientside progress tracking to allow unauthenticated users to track progress locally."
+msgstr ""
+"Vous pouvez combiner cette option avec le suivi côté client pour permettre "
+"aux invités de suivre leur propre progression de lecture localement."

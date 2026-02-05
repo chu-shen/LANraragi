@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-05-05 05:28+0200\n"
-"PO-Revision-Date: 2025-09-24 00:02+0000\n"
+"PO-Revision-Date: 2025-11-28 10:02+0000\n"
 "Last-Translator: Guerra24 <lili@guerra24.net>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/lanraragi/"
 "lanraragi-source/es/>\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14-dev\n"
+"X-Generator: Weblate 5.15-dev\n"
 
 # Sample Data
 # ------Start of Backup.html.tt2------
@@ -709,6 +709,9 @@ msgstr "Guardar metadatos"
 
 msgid "Delete Archive"
 msgstr ""
+
+msgid "Read Archive"
+msgstr "Leer archivo"
 
 msgid "Return to Library"
 msgstr ""
@@ -1887,3 +1890,17 @@ msgstr "Ingresa un número positivo para el intervalo de cambio de página."
 
 msgid "The maximum value allowed is 4GB."
 msgstr "El tamaño máximo permitido es 4GB."
+
+msgid "Authenticated Progress Tracking"
+msgstr "Registro de progreso al estar autenticado"
+
+msgid "If enabled, server-side progress will only be saved if you're logged in with a password, and will override clientside progress. This allows guests to browse without affecting the main user's progress."
+msgstr ""
+"Si se habilita, el progreso del lado del servidor solo se guardará cuando "
+"tengas una sesión iniciada y reemplazará el progreso del cliente. Esto evita "
+"que los usuarios sin sesión modifiquen el progreso del servidor."
+
+msgid "Combine with clientside progress tracking to allow unauthenticated users to track progress locally."
+msgstr ""
+"Al habilitarse el progreso del lado del cliente permite a los usuarios sin "
+"sesión mantener el progreso de forma local."

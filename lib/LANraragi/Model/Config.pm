@@ -179,6 +179,7 @@ sub enable_nofun         { return &get_redis_conf( "nofunmode",       "0" ) }
 sub enable_cors          { return &get_redis_conf( "enablecors",      "0" ) }
 sub get_apikey           { return &get_redis_conf( "apikey",          "" ) }
 sub enable_localprogress { return &get_redis_conf( "localprogress",   "0" ) }
+sub enable_authprogress  { return &get_redis_conf( "authprogress",    "0" ) }
 sub enable_tagrules      { return &get_redis_conf( "tagruleson",      "1" ) }
 sub enable_resize        { return &get_redis_conf( "enableresize",    "0" ) }
 sub get_threshold        { return &get_redis_conf( "sizethreshold",   "1000" ) }
@@ -191,5 +192,6 @@ sub get_hqthumbpages     { return &get_redis_conf( "hqthumbpages",    "0" ) }
 sub get_jxlthumbpages    { return &get_redis_conf( "jxlthumbpages",   "0" ) }
 sub get_replacedupe      { return &get_redis_conf( "replacedupe",     "0" ) }
 sub can_replacetitles    { return &get_redis_conf( "replacetitles",   "1" ) }
+sub get_language         { return &get_redis_conf( "language",        "auto" ) }
 
 1;

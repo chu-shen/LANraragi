@@ -33,6 +33,7 @@ sub index {
         title           => $self->LRR_CONF->get_htmltitle,
         tempmaxsize     => $self->LRR_CONF->get_tempmaxsize,
         localprogress   => $self->LRR_CONF->enable_localprogress,
+        authprogress    => $self->LRR_CONF->enable_authprogress,
         devmode         => $self->LRR_CONF->enable_devmode,
         nofunmode       => $self->LRR_CONF->enable_nofun,
         apikey          => $self->LRR_CONF->get_apikey,
@@ -47,7 +48,8 @@ sub index {
         hqthumbpages    => $self->LRR_CONF->get_hqthumbpages,
         jxlthumbpages   => $self->LRR_CONF->get_jxlthumbpages,
         csshead         => generate_themes_header($self),
-        replacedupe     => $self->LRR_CONF->get_replacedupe
+        replacedupe     => $self->LRR_CONF->get_replacedupe,
+        language        => $self->LRR_CONF->get_language
     );
 }
 
@@ -72,12 +74,14 @@ sub save_config {
         readerquality => scalar $self->req->param('readerquality'),
         sizethreshold => scalar $self->req->param('sizethreshold'),
         theme         => scalar $self->req->param('theme'),
+        language      => scalar $self->req->param('language'),
 
         # For checkboxes,
         # we check if the parameter exists in the POST to return either 1 or 0.
         enablepass      => ( scalar $self->req->param('enablepass')      ? '1' : '0' ),
         enablecors      => ( scalar $self->req->param('enablecors')      ? '1' : '0' ),
         localprogress   => ( scalar $self->req->param('localprogress')   ? '1' : '0' ),
+        authprogress    => ( scalar $self->req->param('authprogress')    ? '1' : '0' ),
         devmode         => ( scalar $self->req->param('devmode')         ? '1' : '0' ),
         enableresize    => ( scalar $self->req->param('enableresize')    ? '1' : '0' ),
         tagruleson      => ( scalar $self->req->param('tagruleson')      ? '1' : '0' ),

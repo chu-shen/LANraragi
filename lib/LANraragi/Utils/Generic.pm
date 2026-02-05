@@ -6,7 +6,7 @@ use utf8;
 use Cwd 'abs_path';
 no warnings 'experimental';
 
-use Storable qw(store);
+use Storable    qw(store);
 use Digest::SHA qw(sha256_hex);
 use Mojo::Log;
 use Mojo::Util qw(xml_escape);
@@ -16,15 +16,15 @@ use Sys::CpuAffinity;
 use Config;
 
 use LANraragi::Utils::TempFolder qw(get_temp);
-use LANraragi::Utils::String qw(trim);
-use LANraragi::Utils::Logging qw(get_logger);
+use LANraragi::Utils::String     qw(trim);
+use LANraragi::Utils::Logging    qw(get_logger);
 
 use constant IS_UNIX => ( $Config{osname} ne 'MSWin32' );
 
 BEGIN {
     if ( !IS_UNIX ) {
         require Win32::Process;
-        Win32::Process->import( qw(NORMAL_PRIORITY_CLASS) );
+        Win32::Process->import(qw(NORMAL_PRIORITY_CLASS));
     }
 }
 
@@ -55,8 +55,8 @@ sub render_api_response {
         json => {
             operation      => $operation,
             error          => $failed ? xml_escape($errormessage) : "",
-            success        => $failed ? 0 : 1,
-            successMessage => $failed ? "" : xml_escape($successMessage),
+            success        => $failed ? 0                         : 1,
+            successMessage => $failed ? ""                        : xml_escape($successMessage),
         },
         status => $failed ? 400 : 200
     );
@@ -103,7 +103,7 @@ sub start_minion {
     my $mojo   = shift;
     my $logger = get_logger( "Minion", "minion" );
 
-    if ( IS_UNIX ) {
+    if (IS_UNIX) {
         my $numcpus = Sys::CpuAffinity::getNumCpus();
         $logger->info("Starting new Minion worker in subprocess with $numcpus parallel jobs.");
 
@@ -131,8 +131,8 @@ sub start_minion {
         return $proc;
     } else {
         my $proc;
-        Win32::Process::Create($proc, undef, "perl \"" . abs_path(".") ."/lib/Worker.pm\"", 0, NORMAL_PRIORITY_CLASS, ".");
-        $logger->info("Starting new Minion worker with PID " . $proc->GetProcessID() . "." );
+        Win32::Process::Create( $proc, undef, "perl \"" . abs_path(".") . "/lib/Worker.pm\"", 0, NORMAL_PRIORITY_CLASS, "." );
+        $logger->info( "Starting new Minion worker with PID " . $proc->GetProcessID() . "." );
         return $proc;
     }
 }
@@ -147,7 +147,7 @@ sub _spawn {
 # Start Shinobu and return its Proc::Background object.
 sub start_shinobu {
     my $mojo = shift;
-    if ( IS_UNIX ) {
+    if (IS_UNIX) {
         my $proc = Proc::Simple->new();
         $proc->start( $^X, "./lib/Shinobu.pm" );
         $proc->kill_on_destroy(0);
@@ -162,7 +162,7 @@ sub start_shinobu {
         return $proc;
     } else {
         my $proc;
-        Win32::Process::Create($proc, undef, "perl \"" . abs_path(".") ."/lib/Shinobu.pm\"", 0, NORMAL_PRIORITY_CLASS, ".");
+        Win32::Process::Create( $proc, undef, "perl \"" . abs_path(".") . "/lib/Shinobu.pm\"", 0, NORMAL_PRIORITY_CLASS, "." );
         open( my $fh, ">", get_temp() . "/shinobu.pid-s6" );
         print $fh $proc->GetProcessID();
         close($fh);
@@ -244,12 +244,12 @@ sub generate_themes_header {
 # Note: CSS files added to the /themes folder will ALWAYS be pickable by the users no matter what.
 # All this sub does is give .css files prettier names in the dropdown. Files without a name here will simply show as their filename to the users.
 sub css_default_data {
-    if ($_[0] eq "g.css")               { return ( "H-Verse",   "#5F0D1F" ) }
-    elsif ($_[0] eq "modern.css")       { return ( "Hachikuji", "#34353B" ) }
-    elsif ($_[0] eq "modern_clear.css") { return ( "Yotsugi",   "#34495E" ) }
-    elsif ($_[0] eq "modern_red.css")   { return ( "Nadeko",    "#D83B66" ) }
-    elsif ($_[0] eq "ex.css")           { return ( "Sad Panda", "#43464E"  )}
-    else { return ( $_[0], "#34353B") }
+    if    ( $_[0] eq "g.css" )            { return ( "H-Verse",   "#5F0D1F" ) }
+    elsif ( $_[0] eq "modern.css" )       { return ( "Hachikuji", "#34353B" ) }
+    elsif ( $_[0] eq "modern_clear.css" ) { return ( "Yotsugi",   "#34495E" ) }
+    elsif ( $_[0] eq "modern_red.css" )   { return ( "Nadeko",    "#D83B66" ) }
+    elsif ( $_[0] eq "ex.css" )           { return ( "Sad Panda", "#43464E" ) }
+    else                                  { return ( $_[0],       "#34353B" ) }
 }
 
 sub flat {
@@ -328,7 +328,10 @@ sub filter_hash_by_keys {
 # otherwise executes the function and returns true (or rethrows error if any).
 # Automatically cleans up the lock and connection after execution.
 sub exec_with_lock {
-    my ( $mojo, $redis, $lock_name, $operation, $resource_id, $func ) = @_;
+
+    my ( $mojo, $lock_name, $operation, $resource_id, $func ) = @_;
+    my $redis = LANraragi::Model::Config->get_redis;
+
     my $lock = $redis->set( $lock_name, 1, 'NX', 'EX', 10 );
     if ( !$lock ) {
         $redis->quit();
@@ -343,11 +346,9 @@ sub exec_with_lock {
         return 0;
     }
 
-    eval {
-        $func->();
-    };
+    eval { $func->(); };
     my $err = $@;
-    $redis->del( $lock_name );
+    $redis->del($lock_name);
     $redis->quit();
 
     die $err if $err;

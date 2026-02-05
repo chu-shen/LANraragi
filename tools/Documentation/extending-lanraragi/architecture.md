@@ -45,7 +45,7 @@ I recommend trying to only use exported functions in your code, and consider the
 
 ## Main App Architecture
 
-```
+```text
 root/
 |- .devcontainer <- VSCode setup files for Codespaces
 |- .github       <- GitHub-specific files
@@ -118,7 +118,6 @@ root/
 |  +- *.html.tt2
 |
 |- tools         <- Contains scripts for building and installing LRR.
-|  |- _screenshots  <- Screenshots
 |  |- Documentation <- What you're reading right now
 |  |- build         <- Build tools and scripts
 |     |- docker           <- Dockerfile and configuration files for LRR Docker Container
@@ -128,11 +127,11 @@ root/
 |  |- install.pl    <- LANraragi Installer
 |  +- lanraragi-systemd.service <- Example SystemD service
 |
-|- lrr.conf      <- Mojolicious configuration file
-|- .perltidy.rc  <- PerlTidy config file to match the coding style
-|- .eslintrc.json   <- ESLint config file to match the coding style
-|- package.json  <- NPM file, contains front-end dependency listing and shortcuts
-+- package-lock.json <- NPM lockfile used by installer/`npm ci` for reproducible builds
+|- lrr.conf           <- Mojolicious configuration file
+|- .perltidy.rc       <- PerlTidy config file to match the coding style
+|- eslint.config.mjs   <- ESLint config file for linting of JavaScript files
+|- package.json       <- NPM file, contains front-end dependency listing and shortcuts
++- package-lock.json  <- NPM lockfile used by installer/`npm ci` for reproducible builds
 ```
 
 ## Shinobu Architecture
@@ -168,7 +167,7 @@ LRR uses three databases to store its own data, and a fourth for the Minion Job 
 
 The base architecture is as follows:
 
-```
+```text
 -Redis Database 1 - Archive & category data
 |
 |- SET_xxxxxxxxxx <- A Category.
@@ -176,6 +175,14 @@ The base architecture is as follows:
 |  |- search <- Search predicate of this category (if dynamic)
 |  |- name <- Name of the Category, as set by the User
 |  |- pinned <- Whether the category is pinned in the index or not
+|
+|- TANK_xxxxxxxxxx <- A Tankoubon. Tankoubons are Redis sorted sets containing some metadata and a list of Archive IDs.
+|  |- tags (-2) <- Additional tags for the Tankoubon. Tanks collate every tag from the archives they contain by default.
+|  |- summary (-1) <- Dedicated summary for the Tankoubon.
+|  |- name (0) <- Name of the Tankoubon.
+|  |- **************************************** (1) <- First archive in the Tankoubon
+|  |- **************************************** (2) <- Second archive in the Tankoubon
+|  +- etc. (3, 4, 5...) 
 |
 |- **************************************** <- 40-character long ID for every logged archive
 |  |- tags <- Saved tags
@@ -200,6 +207,7 @@ The base architecture is as follows:
 |- LRR_CONFIG <- Configuration keys, usually set through the LRR Configuration page.
 |  |- htmltitle
 |  |- motd
+|  |- language <- Forced UI language
 |  |- dirname  <- Content directory
 |  |- thumbdir <- Thumbnail directory  
 |  |- tempmaxsize <- Temp folder max size 
@@ -217,6 +225,7 @@ The base architecture is as follows:
 |
 |- LRR_DUPLICATE_GROUPS <- Duplicate groups found by duplicate detection
 |  +- dupgp_xxxxxx <- A group of dupe IDs, as a JSON list
+|
 +- LRR_TAGRULES <- Computed Tag Rules, as a Redis list
 
 
