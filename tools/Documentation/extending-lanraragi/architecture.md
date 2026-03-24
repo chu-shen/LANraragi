@@ -18,7 +18,8 @@ Those variables were introduced for the Homebrew package, but they can be declar
 * `LRR_LOG_DIRECTORY` - Log directory override. Changes the location of the `log` folder.
 * `LRR_FORCE_DEBUG` - Debug Mode override. This will force Debug Mode to be enabled regardless of the user setting.
 * `LRR_NETWORK` - Network Interface. See the dedicated page in Advanced Operations.  
-* `LRR_REDIS_ADDRESS` - Redis address override. This has priority over the `redis_address` specified in `lrr.conf`.  
+* `LRR_REDIS_ADDRESS` - Redis address override. This has priority over the `redis_address` specified in `lrr.conf`.
+* `LRR_DISABLE_OPENAPI` - Disable OpenAPI validation override. If set to `1`, API request/response validation is disabled regardless of the user setting.
 
 ## Coding Style
 
@@ -214,7 +215,9 @@ The base architecture is as follows:
 |  |- enableresize <- Whether automatic image resizing is enabled  
 |  |- sizethreshold <- Auto-resizing threshold
 |  |- readerquality <- Auto-resizing quality
-|  |- enablecors <- Whether CORS headers are enabled 
+|  |- enablecors <- Whether CORS headers are enabled
+|  |- disableopenapi <- Whether OpenAPI API schema validation is disabled
+|  |- enablemetrics <- Whether metrics exporting is enabled
 |  |- tagruleson <- Whether tag rules are enabled
 |  |- tagrules <- Tag rules, saved as a big ol' string
 |  |- devmode  <- Whether debug mode is enabled
@@ -244,6 +247,30 @@ The base architecture is as follows:
 +- LRR_SEARCHCACHE <- Search Cache
    |- $columnfilter-$filter-$sortkey-$sortorder-$newonly <- Unique ID for a search. The search result is serialized and saved as the value for this ID.
    +- --title-asc-0 <- Example ID for a search made on titles with no filters.
+
+
+-Redis Database 4 - Metrics
+|
+|- metrics:worker:{PID}:{endpoint_encoded}_{method} <- Per-worker API request metrics
+|  |- count <- Total number of requests
+|  |- duration_sum <- Cumulative request duration in seconds
+|  |- request_size_sum <- Cumulative request payload size in bytes
+|  +- response_size_sum <- Cumulative response payload size in bytes
+|
+|- metrics:http:{PID} <- HTTP worker process metrics
+|- metrics:minion:{PID} <- Minion worker process metrics
+|- metrics:shinobu:{PID} <- Shinobu worker process metrics
+|  |- cpu_user_seconds_total <- Total user CPU time in seconds
+|  |- cpu_system_seconds_total <- Total system CPU time in seconds
+|  |- cpu_seconds_total <- Total CPU time (user + system) in seconds
+|  |- virtual_memory_bytes <- Virtual memory size in bytes
+|  |- resident_memory_bytes <- Resident memory size in bytes
+|  |- open_fds <- Number of open file descriptors
+|  |- max_fds <- Maximum allowed file descriptors
+|  |- start_time_seconds <- Unix epoch time when process started
+|  |- read_bytes_total <- Total bytes read from storage
+|  +- write_bytes_total <- Total bytes written to storage
++
 
 ```
 

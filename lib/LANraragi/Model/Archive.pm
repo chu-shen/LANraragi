@@ -85,7 +85,7 @@ sub update_thumbnail {
         render_api_response( $self, "update_thumbnail", "Thumbnail not generated." );
     } else {
         $self->render(
-            json => {
+            openapi => {
                 operation     => "update_thumbnail",
                 new_thumbnail => $newthumb,
                 success       => 1
@@ -138,7 +138,7 @@ sub generate_page_thumbnails {
             my $job_state = $self->minion->job($job_id)->info->{state};
             if ( $job_state eq "active" || $job_state eq "inactive" ) {
                 $self->render(
-                    json => {
+                    openapi => {
                         operation => "generate_page_thumbnails",
                         success   => 1,
                         job       => $job_id
@@ -156,7 +156,7 @@ sub generate_page_thumbnails {
         # Save job in Redis so we can check on it if this endpoint is called again
         $redis->hset( $id, "thumbjob", $job_id );
         $self->render(
-            json => {
+            openapi => {
                 operation => "generate_page_thumbnails",
                 success   => 1,
                 job       => $job_id
@@ -165,7 +165,7 @@ sub generate_page_thumbnails {
         );
     } else {
         $self->render(
-            json => {
+            openapi => {
                 operation => "generate_page_thumbnails",
                 success   => 1,
                 message   => "No job queued, all thumbnails already exist."
@@ -214,7 +214,7 @@ sub serve_thumbnail {
             # Queue a minion job to generate the thumbnail. Thumbnail jobs have the lowest priority.
             my $job_id = $self->minion->enqueue( thumbnail_task => [ $thumbdir, $id, $page ] => { priority => 0, attempts => 3 } );
             $self->render(
-                json => {
+                openapi => {
                     operation => "serve_thumbnail",
                     success   => 1,
                     job       => $job_id
@@ -325,10 +325,6 @@ sub update_metadata {
 sub add_toc_entry {
     my ( $id, $page, $title ) = @_;
 
-    unless ( defined $page and defined $title ) {
-        return "Missing page and/or title.";
-    }
-
     my $redis  = LANraragi::Model::Config->get_redis;
     my $logger = get_logger( "Archives", "lanraragi" );
     my $toc    = $redis->hget( $id, "toc" );
@@ -338,7 +334,6 @@ sub add_toc_entry {
         $toc          = decode_json($toc);
         $toc->{$page} = $title;
         $toc          = encode_json($toc);
-        $redis->hset( $id, "toc", $toc );
     } catch ($e) {
         $logger->warn(
             "Error while updating ToC: $e -- Will overwrite with a ToC containing the new data. (This is normal if this ID had no ToC yet.)"
@@ -346,8 +341,8 @@ sub add_toc_entry {
         $toc          = {};
         $toc->{$page} = $title;
         $toc          = encode_json($toc);
-        $redis->hset( $id, "toc", "{}" );
     }
+    $redis->hset( $id, "toc", $toc );
 
     $redis->quit();
     return "";
@@ -355,10 +350,6 @@ sub add_toc_entry {
 
 sub remove_toc_entry {
     my ( $id, $page ) = @_;
-
-    unless ( defined $page ) {
-        return "Please specify a page to remove";
-    }
 
     my $redis  = LANraragi::Model::Config->get_redis;
     my $logger = get_logger( "Archives", "lanraragi" );
@@ -369,11 +360,11 @@ sub remove_toc_entry {
         $toc = decode_json($toc);
         delete $toc->{$page};
         $toc = encode_json($toc);
-        $redis->hset( $id, "toc", $toc );
     } catch ($e) {
         $logger->warn("Error while updating ToC: $e -- Will overwrite with a blank ToC.");
-        $redis->hset( $id, "toc", "{}" );
+        $toc = "{}";
     }
+    $redis->hset( $id, "toc", $toc );
 
     $redis->quit();
     return "";

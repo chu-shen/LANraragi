@@ -27,6 +27,7 @@
     <script src="[% c.url_for("/js/vendor/clsx.min.js") %]" type="text/JAVASCRIPT"></script>
     <script src="[% c.url_for("/js/vendor/react-toastify.umd.js") %]" type="text/JAVASCRIPT"></script>
     <script src="[% c.url_for("/js/vendor/sweetalert2.min.js") %]" type="text/JAVASCRIPT"></script>
+    <script src="[% c.url_for("/js/vendor/raty.min.js") %]" type="text/JAVASCRIPT"></script>
 
     <script src="[% c.url_for("/js/i18n.js?$version") %]" type="text/JAVASCRIPT"></script>
     <script src="[% c.url_for("/js/common.js?$version") %]" type="text/javascript"></script>
@@ -110,10 +111,8 @@
 
                     <h2>[% c.lh("Admin Options") %]</h2>
 
-                    <input id="edit-archive" class='stdbtn' type='button' value="[% c.lh("Edit Archive Metadata") %]"
-                        style="width:160px" />
-                    <input id="delete-archive" class='stdbtn' type='button' value="[% c.lh("Delete Archive") %]"
-                        style="width:160px" />
+                    <input id="edit-archive" class='stdbtn' type='button' value="[% c.lh("Edit Archive Metadata") %]"/>
+                    <input id="delete-archive" class='stdbtn' type='button' value="[% c.lh("Delete Archive") %]"/>
 
                     <h2>[% c.lh("Categories") %]</h2>
 
@@ -157,6 +156,9 @@
                     </select>
                     <a class="fas fa-plus" id="add-rating" href="#" title="[% c.lh('添加评分至标签') %]"></a>
 
+                    <h2>[% c.lh("Rating") %]</h2>
+                    <div data-raty></div>
+                
                 </div>
                 [% END %]
             </div>

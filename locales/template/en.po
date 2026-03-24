@@ -391,6 +391,12 @@ msgstr "Fully effective after restarting LANraragi."
 msgid "Clean Database"
 msgstr "Clean Database"
 
+msgid "Enable Metrics"
+msgstr "Enable Metrics"
+
+msgid "Enable metrics collection and serve them through the metrics endpoint in the Prometheus exposition format."
+msgstr "Enable metrics collection and serve them through the metrics endpoint in the Prometheus exposition format."
+
 msgid "Cleaning the database will remove entries that aren't on your filesystem."
 msgstr "Cleaning the database will remove entries that aren't on your filesystem."
 
@@ -454,6 +460,12 @@ msgstr "Have API requests support Cross-Origin Resource Sharing, which allows we
 
 msgid "Turn this on if you want to access this service through a web-based wrapper (e.g. a userscript) used/hosted on another domain."
 msgstr "Turn this on if you want to access this service through a web-based wrapper (e.g. a userscript) used/hosted on another domain."
+
+msgid "Disable OpenAPI Validation"
+msgstr "Disable OpenAPI Validation"
+
+msgid "Disables OpenAPI API schema validation. Turn this on if you are running into validation-related errors with old API clients."
+msgstr "Disables OpenAPI API schema validation. Turn this on if you are running into validation-related errors with old API clients."
 
 # ------End of Config_Security.html.tt2------
 
@@ -570,6 +582,15 @@ msgstr "<b>tag => new-tag</b> : replaces one tag, but use a hash table internall
 
 msgid "<b>namespace:* -> new-namespace:*</b> : replaces the namespace with the new one"
 msgstr "<b>namespace:* -> new-namespace:*</b> : replaces the namespace with the new one"
+
+msgid "Excluded Namespaces"
+msgstr "Excluded Namespaces"
+
+msgid "Comma-separated list of tag namespaces to exclude from search suggestions and tag statistics."
+msgstr "Comma-separated list of tag namespaces to exclude from search suggestions and tag statistics."
+
+msgid "Clients will use this list to filter out noisy tags from autocomplete and tag clouds."
+msgstr "Clients will use this list to filter out noisy tags from autocomplete and tag clouds."
 
 # ------End of Config_Tags.html.tt2------
 

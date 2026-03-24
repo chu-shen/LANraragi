@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-05-06 17:24+0200\n"
-"PO-Revision-Date: 2026-01-15 22:01+0000\n"
-"Last-Translator: Yurical <yurical1@outlook.com>\n"
+"PO-Revision-Date: 2026-03-23 13:12+0000\n"
+"Last-Translator: 안세훈 <on9686@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/lanraragi/"
 "lanraragi-source/ko/>\n"
 "Language: ko\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.15.2\n"
+"X-Generator: Weblate 5.17-dev\n"
 
 # Sample Data
 # ------Start of Backup.html.tt2------
@@ -391,6 +391,14 @@ msgstr ""
 
 msgid "Clean Database"
 msgstr "데이터베이스 정리"
+
+msgid "Enable Metrics"
+msgstr "메트릭 활성화"
+
+msgid "Enable metrics collection and serve them through the metrics endpoint in the Prometheus exposition format."
+msgstr ""
+"메트릭 수집을 활성화하여 Prometheus exposition 형식 엔드포인트를 통해 "
+"제공합니다."
 
 msgid "Cleaning the database will remove entries that aren't on your filesystem."
 msgstr "데이터베이스 정리는 파일 시스템에 없는 항목을 제거합니다."
@@ -1788,3 +1796,52 @@ msgstr "평점 삭제"
 
 msgid " -- Select Rating -- "
 msgstr " -- 평점 선택 -- "
+
+msgid "Chapters"
+msgstr "챕터"
+
+msgid "Add Chapter at this Page"
+msgstr "이 페이지에 챕터 추가"
+
+msgid "Edit Chapter name"
+msgstr "챕터 이름 편집"
+
+msgid "Delete Chapter"
+msgstr "챕터 삭제"
+
+msgid "Are you sure you want to delete this chapter/section?"
+msgstr "이 챕터/섹션을 삭제하시겠습니까?"
+
+msgid "Enter a title for this chapter/section:"
+msgstr "이 챕터/섹션의 제목을 입력하십시오:"
+
+msgid "Chapter added!"
+msgstr "챕터 추가됨!"
+
+msgid "Error adding/removing chapter:"
+msgstr "챕터 추가/제거 오류:"
+
+msgid "Untitled Chapter"
+msgstr "제목 없는 챕터"
+
+msgid "Disable OpenAPI Validation"
+msgstr "OpenAPI 검증 비활성화"
+
+msgid "Disables OpenAPI API schema validation. Turn this on if you are running into validation-related errors with old API clients."
+msgstr ""
+"OpenAPI 스키마 검증을 비활성화합니다. 이전 API 클라이언트에서 검증 관련 "
+"오류가 발생하면 이 기능을 켜십시오."
+
+msgid "Excluded Namespaces"
+msgstr "제외된 네임스페이스"
+
+msgid "Comma-separated list of tag namespaces to exclude from search suggestions and tag statistics."
+msgstr "검색 제안 및 태그 통계에서 제외할 태그 네임스페이스. 콤바로 구분합니다."
+
+msgid "Clients will use this list to filter out noisy tags from autocomplete and tag clouds."
+msgstr ""
+"클라이언트는 이 목록을 사용하여 자동 완성 및 태그 클라우드에서 노이즈가 있는 "
+"태그를 필터링합니다."
+
+msgid "Clear rating"
+msgstr "평점 제거"
