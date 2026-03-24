@@ -4,9 +4,10 @@
 - 添加评分及评论插件，右键档案使用
   - `lib/LANraragi/Plugin/Metadata/Comment.pm`
     - 新出的`Summary`字段应该指的是自带的元数据，那就与此字段不冲突
-  - `lib/LANraragi/Plugin/Metadata/Rating.pm`
-    - 阅读界面也可直接添加评分
-    - 有人在进行类似的工作
+  - ~~`lib/LANraragi/Plugin/Metadata/Rating.pm`~~
+    - 插件已移除，已迁移至官方实现
+      - 命名空间不同，此实现为`Rating`，官方为`rating` #TODO 合并
+      - 支持半星/五分制（0.5步长）
 - 略微调整EHentai插件搜索逻辑
   - `lib/LANraragi/Plugin/Metadata/EHentai.pm`
 - 添加插件，插件使用说明见[LANraragi-scripts](https://github.com/chu-shen/LANraragi-scripts)

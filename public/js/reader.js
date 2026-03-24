@@ -95,12 +95,6 @@ Reader.initializeAll = function () {
                 .addClass("fas fa-bookmark");
         }
     });
-    $(document).on("click.add-rating", "#add-rating", () => {
-        if ($("#rating").val().startsWith("rating-")) {
-            const rating = $("#rating").val().replace("rating-", "");
-            Server.callAPI(`/api/plugins/queue?plugin=rating&id=${Reader.id}&arg=${rating}`, "POST", `Added Rating ${rating} for ${Reader.id}!`, "Error while executing Script :", null)
-        }
-    });
     $(document).on("click.remove-category", ".remove-category", (e) => {
         e.preventDefault();
         const catId = $(e.target).attr("data-id");
@@ -205,6 +199,37 @@ Reader.initializeAll = function () {
                         // Create a tag with star emoji corresponding to the rating (e.g. rating:⭐⭐⭐ for a 3-star rating)
                         selectedRating = "⭐".repeat(score);
                         tags.rating = [selectedRating];
+                    }
+
+                    let tagList = LRR.buildTagList(tags);
+                    Server.updateTagsFromArchive(Reader.id, tagList);
+                    $("#tagContainer > table").replaceWith(LRR.buildTagsDiv(tagList.join(",")));
+                }
+            }).init();
+        }
+
+        const raty10El = document.querySelector('[data-raty-10]');
+        if (raty10El) {
+            const ratingTag = LRR.splitTagsByNamespace(Reader.content.tags).Rating?.at(0);
+            let ratingValue = null;
+            if (ratingTag && !isNaN(parseFloat(ratingTag))) {
+                ratingValue = parseFloat(ratingTag);
+            }
+            new Raty(raty10El, {
+                starType: 'i',
+                half: true,
+                cancelButton: true,
+                cancelClass: 'fas fa-trash raty-cancel',
+                cancelHint: I18N.ReaderClearRating,
+                cancelPlace: 'right',
+                score: ratingValue,
+                click: function (score, element, evt) {
+                    let tags = LRR.splitTagsByNamespace(Reader.content.tags);
+
+                    if (score === null)
+                        delete tags.Rating;
+                    else {
+                        tags.Rating = [score];
                     }
 
                     let tagList = LRR.buildTagList(tags);

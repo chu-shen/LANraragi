@@ -752,6 +752,65 @@ Index.loadContextMenuRatings = (id) => Server.callAPI(`/api/archives/${id}/metad
     },
 );
 
+Index.loadContextMenuRatingsCustom = (id) => Server.callAPI(`/api/archives/${id}/metadata`, "GET", null, I18N.IndexIdLoadError(id),
+    (data) => {
+        const items = {};
+        const ratings = [{
+            name: I18N.IndexRemoveRating, value: null,
+        }, {
+            name: "💕💕💕💕💕", value: 5,
+        }, {
+            name: "💕💕💕💕❤️", value: 4.5,
+        }, {
+            name: "💕💕💕💕", value: 4,
+        }, {
+            name: "💕💕💕❤️", value: 3.5,
+        }, {
+            name: "💕💕💕", value: 3,
+        }, {
+            name: "❤️❤️❤️❤️❤️", value: 2.5,
+        }, {
+            name: "❤️❤️❤️❤️", value: 2,
+        }, {
+            name: "❤️❤️❤️", value: 1.5,
+        }, {
+            name: "❤️❤️", value: 1,
+        }, {
+            name: "❤️", value: 0.5,
+        }];
+        const tags = LRR.splitTagsByNamespace(data.tags);
+
+        let currentRating = null;
+        if (tags.Rating && tags.Rating[0]) {
+            const val = parseFloat(tags.Rating[0]);
+            if (!isNaN(val)) currentRating = val;
+        }
+
+        for (let i = 0; i < ratings.length; i++) {
+            items[i] = ratings[i];
+            items[i].type = "checkbox";
+
+            if (currentRating !== null && ratings[i].value === currentRating) { items[i].selected = true; }
+            items[i].events = {
+                click() {
+                    const selectedValue = ratings[i].value;
+                    if (selectedValue === null) delete tags.Rating;
+                    else tags.Rating = [selectedValue];
+
+                    Server.updateTagsFromArchive(id, LRR.buildTagList(tags));
+
+                    // Update the rating info without reload but have to refresh everything.
+                    IndexTable.dataTable.ajax.reload(null, false);
+                    Index.updateCarousel();
+                    $(this).parents("ul.context-menu-list").find("input[type='checkbox']").toArray().filter((x) => x !== this).forEach(x => x.checked = false);
+                },
+            };
+        }
+
+        return items;
+    },
+);
+
 /**
  * Handle context menu clicks.
  * @param {*} option The clicked option
@@ -759,12 +818,6 @@ Index.loadContextMenuRatings = (id) => Server.callAPI(`/api/archives/${id}/metad
  * @returns
  */
 Index.handleContextMenu = function (option, id) {
-    if (option.startsWith("rating-")) {
-        const rating = option.replace("rating-", "");
-        Server.callAPI(`/api/plugins/queue?plugin=rating&id=${id}&arg=${rating}`, "POST", `Added Rating ${rating} for ${id}!`, "Error while executing Script :", null)
-        return;
-    }
-
     switch (option) {
         case "edit":
             LRR.openInNewTab(new LRR.apiURL(`/edit?id=${id}`));

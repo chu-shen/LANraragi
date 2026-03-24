@@ -139,25 +139,11 @@
                     </select>
                     <a class="fas fa-plus" id="add-category" href="#" title="[% c.lh('Add Archive to Category') %]"></a>
 
-                    <br />
-                    <span>[% c.lh("Rating : ") %]</span>
-                    <select id="rating" class="favtag-btn" style="width:200px; margin-right: 8px">
-                        <option selected value="">[% c.lh(" -- Select Rating -- ") %]</option>
-                        <option value="rating-5">💕💕💕💕💕</option>
-                        <option value="rating-4.5">💕💕💕💕</option>
-                        <option value="rating-4">💕💕💕</option>
-                        <option value="rating-3.5">💕💕</option>
-                        <option value="rating-3">💕</option>
-                        <option value="rating-2.5">❤️❤️❤️❤️❤️</option>
-                        <option value="rating-2">❤️❤️❤️❤️</option>
-                        <option value="rating-1.5">❤️❤️❤️</option>
-                        <option value="rating-1">❤️❤️</option>
-                        <option value="rating-0.5">❤️</option>
-                    </select>
-                    <a class="fas fa-plus" id="add-rating" href="#" title="[% c.lh('添加评分至标签') %]"></a>
-
                     <h2>[% c.lh("Rating") %]</h2>
                     <div data-raty></div>
+
+                    <h2>[% c.lh("添加评分至标签") %]</h2>
+                    <div data-raty-10></div>
                 
                 </div>
                 [% END %]

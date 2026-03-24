@@ -229,20 +229,9 @@
 							[% IF userlogged %]
 							"sep1": "---------",
 							"ratingCustom": {
-								"name": "添加评分至标签",
-								"icon": "fas fa-search-plus",
-								"items": {
-									"rating-5": { "name": "💕💕💕💕💕" },
-									"rating-4.5": { "name": "💕💕💕💕" },
-									"rating-4": { "name": "💕💕💕"},
-									"rating-3.5": { "name": "💕💕" },
-									"rating-3": { "name": "💕", },
-									"rating-2.5": { "name": "❤️❤️❤️❤️❤️" },
-									"rating-2": { "name": "❤️❤️❤️❤️" },
-									"rating-1.5": { "name": "❤️❤️❤️"},
-									"rating-1": { "name": "❤️❤️"},
-									"rating-0.5": { "name": "❤️" },
-								}
+							    "name": "[% c.lh('添加评分至标签') %]",
+							    "icon": "fas fa-star",
+							    "items": Index.loadContextMenuRatingsCustom($trigger.attr("id"))
 							},
 							"comment": { name: "添加评论至标签", icon: "fas fa-pencil-alt" },
 							"sep1": "---------",
