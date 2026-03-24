@@ -855,6 +855,12 @@ body.infinite-scroll .fullscreen-infinite img {
   content: "\f005";
 }
 
+.star-half-png:before {
+  content: "\f089";
+  font-family: var(--fa-style-family, "Font Awesome 6 Free");
+  font-weight: 900;
+}
+
 .star-on-png {
   font-weight: 900;
 }
