@@ -329,14 +329,16 @@ Reader.addTocSection = function (page, currentTitle = null) {
         showCancelButton: true,
         reverseButtons: true,
     }).then((result) => {
-        Reader.toggleArchiveOverlay();
         if (result.isConfirmed && result.value.trim() !== "") {
-            Server.callAPI(`/api/archives/${Reader.id}/toc?page=${page}&title=${result.value}`, "PUT", "Chapter added!", I18N.ReaderTocError, 
+            Server.callAPI(`/api/archives/${Reader.id}/toc?page=${page}&title=${result.value}`, "PUT", "Chapter added!", I18N.ReaderTocError,
                 () => Reader.loadContentData().then(() => {
-                        Reader.updateArchiveOverlay(true); 
-                        Reader.goToPage(page);
-                      })
+                    Reader.updateArchiveOverlay(true);
+                    Reader.toggleArchiveOverlay();
+                    Reader.goToPage(page);
+                })
             );
+        } else {
+            Reader.toggleArchiveOverlay();
         }
     });
 }
@@ -353,12 +355,16 @@ Reader.removeTocSection = function () {
         reverseButtons: true,
         confirmButtonColor: "#d33",
     }).then((result) => {
-        Reader.toggleArchiveOverlay();
         if (result.isConfirmed) {
-            let page = Reader.currentChapter.startPage; 
-            Server.callAPI(`/api/archives/${Reader.id}/toc?page=${page}`, "DELETE", "Chapter removed!", I18N.ReaderTocError, 
-                () => Reader.loadContentData().then(() => Reader.updateArchiveOverlay(true))
+            let page = Reader.currentChapter.startPage;
+            Server.callAPI(`/api/archives/${Reader.id}/toc?page=${page}`, "DELETE", "Chapter removed!", I18N.ReaderTocError,
+                () => Reader.loadContentData().then(() => {
+                    Reader.updateArchiveOverlay(true);
+                    Reader.toggleArchiveOverlay();
+                })
             );
+        } else {
+            Reader.toggleArchiveOverlay();
         }
     });
 }
@@ -1145,8 +1151,8 @@ Reader.toggleArchiveOverlay = function () {
 Reader.toggleFullScreen = function () {
     if (window.fscreen.inFullscreen()) {
         // if already full screen; exit
-        window.fscreen.exitFullscreen();
-        Reader.handleFullScreen();
+        window.fscreen.exitFullscreen().then(() =>
+            Reader.handleFullScreen());
     } else {
         // else go fullscreen
         Reader.handleFullScreen(true);
