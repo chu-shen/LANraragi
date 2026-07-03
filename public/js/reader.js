@@ -345,7 +345,7 @@ export async function initializeAll(trackProgressLocally, authenticateProgress) 
 
         const raty10El = document.querySelector('[data-raty-10]');
         if (raty10El) {
-            const ratingTag = LRR.splitTagsByNamespace(Reader.content.tags).Rating?.at(0);
+            const ratingTag = LRR.splitTagsByNamespace(content.tags).Rating?.at(0);
             let ratingValue = null;
             if (ratingTag && !isNaN(parseFloat(ratingTag))) {
                 ratingValue = parseFloat(ratingTag);
@@ -359,7 +359,7 @@ export async function initializeAll(trackProgressLocally, authenticateProgress) 
                 cancelPlace: 'right',
                 score: ratingValue,
                 click: function (score, element, evt) {
-                    let tags = LRR.splitTagsByNamespace(Reader.content.tags);
+                    let tags = LRR.splitTagsByNamespace(content.tags);
 
                     if (score === null)
                         delete tags.Rating;
@@ -368,7 +368,7 @@ export async function initializeAll(trackProgressLocally, authenticateProgress) 
                     }
 
                     let tagList = LRR.buildTagList(tags);
-                    Server.updateTagsFromArchive(Reader.id, tagList);
+                    Server.updateTagsFromArchive(id, tagList);
                     $("#tagContainer > table").replaceWith(LRR.buildTagsDiv(tagList.join(",")));
                 }
             }).init();
