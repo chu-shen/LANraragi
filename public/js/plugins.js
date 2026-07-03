@@ -12,10 +12,10 @@ Plugins.initializeAll = function () {
     $(document).on("click.save", "#save", () => Server.saveFormData("#editPluginForm"));
     $(document).on("click.return", "#return", () => { window.location.href = new LRR.ApiURL("/"); });
 
-    $(document).on("click.triggerScript", ".trigger-script-btn", () => {
+    $(document).on("click.triggerScript", ".trigger-script-btn", function () {
         const namespace = $(this).data("namespace");
         if (namespace) {
-            Server.triggerScript('[% plugin.namespace %]');
+            Server.triggerScript(namespace);
         }
     });
 
