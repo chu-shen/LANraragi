@@ -265,7 +265,10 @@ export function buildTagsDiv(tags) {
             const tagText = encodeHTML(/^(date|time)/.test(key) ? convertTimestamp(tag) : tag);
 
             line += `<div class="gt">
-                        <a href="${encodeHTML(url)}" search="${encodeHTML(searchTag)}">
+                        <a href="${encodeHTML(url)}"`;
+            if (key !== "source") // Don't add the search attribute for source tags, since they are external links
+                line += ` search="${encodeHTML(searchTag)}"`
+            line += `   >
                             ${tagText}
                         </a>
                     </div>`;
