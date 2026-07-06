@@ -624,9 +624,11 @@ export function toggleArchiveSelection(id) {
         removeArchiveFromSelection(id);
     } else {
         selectedArchives.add(id);
-        // Find archive data from DataTables to build the carousel slide
+        // Find archive data from DataTables to build the carousel slide.
+        // If there's nothing in DT (because we're adding something from the current carousel instead),
+        // fallback to the shared data cache. 
         const row = IndexTable.dataTable.row(`#${id}`);
-        const data = row.data();
+        const data = row.data() || LRR.getArchiveData(id);
         if (data) {
             addArchiveToSelection(data);
         }
@@ -823,8 +825,7 @@ function mergeSelectionIntoTankoubon() {
 function addArchivesToTank(tankId, arcIds) {
     arcIds.reduce((chain, arcId) =>
         chain.then(() =>
-            Server.callAPISilent(`/api/tankoubons/${tankId}/${arcId}`, "PUT",
-                null, I18N.MSMMergeAddError, null)
+            Server.callAPISilent(`/api/tankoubons/${tankId}/${arcId}`, "PUT")
         ),
     Promise.resolve()
     ).then(() => {
@@ -834,7 +835,7 @@ function addArchivesToTank(tankId, arcIds) {
         exitSelectionCarouselMode();
         IndexTable.doSearch();
     })
-    .catch((error) => LRR.showErrorToast(I18N.MSMMergeError, error));
+        .catch((error) => LRR.showErrorToast(I18N.MSMMergeAddError, error));
 };
 
 // #endregion
