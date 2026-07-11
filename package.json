@@ -12,6 +12,7 @@
         "test": "prove -r -l -v tests/",
         "lanraragi-installer": "perl ./tools/install.pl",
         "lint": "eslint public/",
+        "lint-openapi": "redocly lint tools/openapi.yaml --config=redocly.yml",
         "start": "perl ./script/launcher.pl -f ./script/lanraragi",
         "dev-server": "perl ./script/launcher.pl -m -v ./script/lanraragi",
         "dev-server-verbose": "export LRR_DEVSERVER=1 && perl ./script/launcher.pl -m -v ./script/lanraragi",
@@ -19,7 +20,8 @@
         "docker-build": "docker build -t difegue/lanraragi -f ./tools/build/docker/Dockerfile .",
         "critic": "perlcritic ./lib/* ./script/* ./tools/install.pl",
         "backup-db": "perl ./script/backup",
-        "get-version": "perl ./script/get_version"
+        "get-version": "perl ./script/get_version",
+        "tidy": "find . -name '*.pl' -o -name '*.pm' | xargs perltidy -b -bext='/'"
     },
     "repository": {
         "type": "git",
@@ -32,7 +34,7 @@
     },
     "homepage": "https://github.com/Difegue/LANraragi#readme",
     "dependencies": {
-        "@fortawesome/fontawesome-free": "6.2.1",
+        "@fortawesome/fontawesome-free": "^6.7.2",
         "@jcubic/tagger": "0.4.2",
         "@preact/signals": "^2.9.2",
         "allcollapsible": "1.1.0",
@@ -61,6 +63,7 @@
     },
     "devDependencies": {
         "@eslint/js": "^10.0.1",
+        "@redocly/cli": "^2.37.0",
         "@stylistic/eslint-plugin": "^4.0.0",
         "eslint": "^10.6.0",
         "globals": "16.5.0"

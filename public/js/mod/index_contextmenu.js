@@ -361,17 +361,16 @@ export function initialize(catListData) {
                         "icon": "fas fa-search-plus",
                         "items": loadContextMenuCategories(catList, id)
                     }
-                }
+                };
                 Object.assign(items, moreItems);
             }
 
             return {
                 callback: function (key, _options) {
-                    handleContextMenu(key, $(this)
-                        .attr("id"));
+                    handleContextMenu(key, $(this).attr("id"));
                 },
                 items: items,
-            }
+            };
         }
     });
 }

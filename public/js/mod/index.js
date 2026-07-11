@@ -11,12 +11,16 @@ import DOMPurify from "dompurify";
 
 export let selectedCategory = "";
 let carouselInitialized = false;
+let carouselGeneration = 0;
 let swiper = {};
 let serverVersion = "";
 let debugMode = false;
 export let pageSize = 100;
 export let isMultiSelectMode = false;
 export let selectedArchives = new Set();
+
+const CAROUSEL_RETRY_DELAY_MS = 1500;
+const CAROUSEL_MAX_RETRIES = 10;
 
 /**
  * Initialize the Archive Index.
@@ -273,7 +277,7 @@ export function bookmarkIconOff(arcid) {
     icons.forEach(el => {
         el.classList.remove("fas");
         el.classList.add("far");
-    })
+    });
 }
 
 // Turn bookmark icons to ON for all archives.
@@ -282,7 +286,7 @@ export function bookmarkIconOn(arcid) {
     icons.forEach(el => {
         el.classList.remove("far");
         el.classList.add("fas");
-    })
+    });
 }
 
 export function toggleBookmarkStatusByIcon(e) {
@@ -491,24 +495,65 @@ export function updateCarousel(e) {
     }
 
     if (carouselInitialized) {
-        Server.callAPI(endpoint, "GET", null, I18N.CarouselError,
-            (results) => {
-                swiper.virtual.removeAllSlides();
-                const slides = results.data
-                    .map((archive) => LRR.buildThumbnailDiv(archive));
-                swiper.virtual.appendSlide(slides);
-                swiper.virtual.update();
-
-                if (results.data.length === 0) {
-                    $("#carousel-empty").show();
-                }
-
-                $("#carousel-loading").hide();
-                $(".swiper-wrapper").show();
-                $("#reload-carousel").removeClass("fa-spin");
-            },
-        );
+        carouselGeneration += 1;
+        loadCarousel(endpoint, carouselGeneration);
     }
+}
+
+/**
+ * Fetch and render the carousel, retry nonblock while search engine initializes
+ * @param {string} endpoint Search API endpoint for the current carousel type
+ * @param {number} generation token identifying this carousel refresh
+ */
+async function loadCarousel(endpoint, generation) {
+    try {
+        for (let attempt = 0; attempt <= CAROUSEL_MAX_RETRIES; attempt++) {
+            if (attempt > 0) {
+                await new Promise((resolve) => setTimeout(resolve, CAROUSEL_RETRY_DELAY_MS));
+            }
+
+            const response = await fetch(new LRR.ApiURL(endpoint), { method: "GET" });
+
+            // Search engine still initializing: back off and retry
+            if (response.status === 204) { continue; }
+            if (!response.ok) {
+                throw new Error(`${response.status} ${response.statusText}`);
+            }
+
+            const results = await response.json();
+            // Only render if a newer load hasn't superseded this one
+            if (generation !== carouselGeneration) { return; }
+            renderCarousel(results);
+            return;
+        }
+
+        throw new Error(`Search engine not initialized after ${CAROUSEL_MAX_RETRIES * CAROUSEL_RETRY_DELAY_MS}ms`);
+    } catch (error) {
+        if (generation !== carouselGeneration) { return; }
+        LRR.showErrorToast(I18N.CarouselError, error);
+        $("#carousel-loading").hide();
+        $("#reload-carousel").removeClass("fa-spin");
+    }
+}
+
+/**
+ * Render carousel slides from a search API result.
+ * @param {{data: Array}} results Search API response payload.
+ */
+function renderCarousel(results) {
+    swiper.virtual.removeAllSlides();
+    const slides = results.data
+        .map((archive) => LRR.buildThumbnailDiv(archive));
+    swiper.virtual.appendSlide(slides);
+    swiper.virtual.update();
+
+    if (results.data.length === 0) {
+        $("#carousel-empty").show();
+    }
+
+    $("#carousel-loading").hide();
+    $(".swiper-wrapper").show();
+    $("#reload-carousel").removeClass("fa-spin");
 }
 
 // #endregion
@@ -605,6 +650,9 @@ export function exitSelectionCarouselMode() {
 
     // Hide MSM controls
     $("#msm-carousel-controls").hide();
+
+    // Update msm flag
+    isMultiSelectMode = false;
 
     // Reload normal carousel content
     updateCarousel();

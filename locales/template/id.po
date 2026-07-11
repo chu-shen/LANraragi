@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-05-26 06:02+0200\n"
-"PO-Revision-Date: 2026-05-30 08:01+0000\n"
+"PO-Revision-Date: 2026-07-08 07:01+0000\n"
 "Last-Translator: Slasar41 <agungtrianto41@outlook.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/lanraragi/"
 "lanraragi-source/id/>\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2026.6.dev0\n"
+"X-Generator: Weblate 2026.7.1.dev0\n"
 
 # Sample Data
 # ------Start of Backup.html.tt2------
@@ -798,7 +798,7 @@ msgstr ""
 "daftar."
 
 msgid "Go to Page:"
-msgstr "Pergi ke Halaman:"
+msgstr "Buka Halaman:"
 
 msgid "Columns:"
 msgstr "Kolom:"
@@ -1685,6 +1685,12 @@ msgstr ""
 "LANraragi dengan <a href='https://sugoi.gitbook.io/lanraragi/advanced-usage/"
 "external-readers#generic-opds-readers'>pembaca OPDS.</a>"
 
+msgid "This comic streams its pages from the web"
+msgstr ""
+
+msgid "CBW files contain no images themselves; their pages are fetched from remote URLs on demand. Reading will fail for any page whose source is no longer online."
+msgstr ""
+
 msgid "Navigation Help"
 msgstr "Bantuan Navigasi"
 
@@ -2193,3 +2199,23 @@ msgstr ""
 msgid "This will merge \${n} Archives into Tankoubon \${name}. Proceed?"
 msgstr ""
 "Ini akan menggabungkan ${n} arsip ke dalam Tankoubon ${name}. Lanjutkan?"
+
+msgid "This is the first archive"
+msgstr "Ini adalah arsip pertama"
+
+msgid "This is the last archive"
+msgstr "Ini adalah arsip terakhir"
+
+msgid "When reading an archive from search results, you can also navigate between archives using:"
+msgstr ""
+"Saat membaca arsip dari hasil pencarian, Anda juga dapat berpindah antar "
+"arsip menggunakan:"
+
+msgid "The , and . keys"
+msgstr "Tombol \",\" dan \".\""
+
+msgid "Reading past the first/last page"
+msgstr "Melewati halaman pertama/terakhir saat membaca"
+
+msgid "shift+Left/Right: go to first page/last page"
+msgstr "Shift + ←/→: buka halaman pertama/terakhir"
